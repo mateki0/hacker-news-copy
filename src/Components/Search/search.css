@@ -1,0 +1,43 @@
+*{
+  box-sizing:border-box;
+}
+.filters{
+  display:flex;
+  padding:5px;
+  height:42px;
+  
+}
+.category{
+  display:flex;
+  justify-content: space-between;
+}
+.dropdown{
+  display:flex;
+  margin-left:8px;
+  flex-direction:column;
+  z-index:15;
+}
+.dropdown>label{
+  border:1px solid rgba(0,0,0,0.25);
+  text-align: center;
+  margin:0 8px 0 0 ;
+  padding:0 0 2px 0 ;
+}
+.dropdown>label:hover{
+  cursor:pointer;
+}
+.dropdown>ul{
+  list-style: none;
+  margin-top:15px;
+  padding:0;
+  border:1px solid rgba(0,0,0,0.25);
+}
+.dropdown>ul>li:not(:last-child){
+  border-bottom:1px solid rgba(0,0,0,0.25)
+}
+.dropdown>ul>li{
+  padding:3px 8px;
+}
+.dropdown>ul>li:hover{
+  cursor:pointer
+}

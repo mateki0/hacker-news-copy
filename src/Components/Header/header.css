@@ -1,9 +1,7 @@
 *{
       box-sizing: border-box;
 }
-body,html{
-  background: gray;
-}
+
 header{
   width:100%;
 }
@@ -61,6 +59,8 @@ header{
   height:42px;
   font-weight:300;
   color:rgba(0,0,0,0.75);
+  line-height: 1.2;
+  font-size:100%;
 }
 .searchBy{
   background-color:#fff;
@@ -69,6 +69,8 @@ header{
   transform:translateY(-50%);
   right:8px;
   top:50%;
+  display:flex;
+  align-items: center;
 }
 .settings{
   margin-left:8px;
