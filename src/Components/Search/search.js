@@ -124,9 +124,5 @@ class Search extends Component{
     )
   }
 }
-// var clickOutsideConfig = {
-//   handleClickOutisde: function(instance){
-//     return instance.myClickOutsideHandler
-//   }
-// }
+
 export default onClickOutside(Search);

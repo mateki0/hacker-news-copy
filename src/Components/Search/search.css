@@ -27,6 +27,7 @@
   cursor:pointer;
 }
 .dropdown>ul{
+  background-color:#fff;
   list-style: none;
   margin-top:15px;
   padding:0;

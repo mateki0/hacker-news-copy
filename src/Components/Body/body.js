@@ -6,13 +6,14 @@ class Body extends Component{
     super(props);
 
     this.state={
+      url:'http://hn.algolia.com/api/v1/search_by_date?query=...',
       error:null,
       isLoaded:false,
       items:[]
     }
   }
   componentDidMount(){
-    fetch('http://hn.algolia.com/api/v1/search_by_date?query=...')
+    fetch(this.state.url)
     .then(res => res.json())
     .then(
       (result) => {
