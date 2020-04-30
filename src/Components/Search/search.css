@@ -3,9 +3,9 @@
 }
 .filters{
   display:flex;
-  padding:5px;
+  padding:8px;
   height:42px;
-  
+
 }
 .category{
   display:flex;

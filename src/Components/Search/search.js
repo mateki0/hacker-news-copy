@@ -90,7 +90,7 @@ class Search extends Component{
         <div className="category">
 
           <div className="dropdown"  >
-          <label onClick={this.handleStoriesDropdown} class="storiesLabel" style={{width:`${(6*this.state.stories.length)+50}px`}}>{this.state.stories} </label>
+          <label onClick={this.handleStoriesDropdown} className="storiesLabel" style={{width:`${(6*this.state.stories.length)+50}px`}}>{this.state.stories} </label>
         <ul className="storiesOpen" style={this.state.storiesOpen === true ? {display:'block'} : {display:'none'} } >
               <li onClick={this.handleStories}>All</li>
               <li onClick={this.handleStories}>Stories</li>

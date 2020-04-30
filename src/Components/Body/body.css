@@ -1,0 +1,40 @@
+.singleStory{
+  display:flex;
+  align-items: center;
+  padding:0 10px;
+}
+.header{
+  display:flex;
+  padding:2px 8px;
+}
+.header>a{
+  margin-left:5px;
+  color:rgba(0,0,0,0.5);
+  text-decoration: none;
+}
+.bottom{
+
+}
+.storyTitle{
+  font-size:14px;
+}
+.storyLink{
+  font-size:13px;
+}
+.bottom>ul{
+  display:flex;
+  list-style: none;
+  margin:0;
+  padding:0;
+}
+.bottom>ul>li{
+  font-size:11px;
+  padding:0 8px;
+}
+.bottom>ul>li>a{
+  color:rgba(0,0,0,0.85);
+  text-decoration:none;
+}
+.bottom>ul>li:not(:last-child){
+  border-right: 2px solid rgba(0,0,0,0.25)
+}
