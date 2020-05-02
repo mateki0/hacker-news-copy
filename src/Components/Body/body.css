@@ -7,20 +7,21 @@
   display:flex;
   padding:2px 8px;
 }
-.header>a{
+.storyLink{
   margin-left:5px;
   color:rgba(0,0,0,0.5);
-  text-decoration: none;
+
+  font-size:13px;
 }
 .bottom{
 
 }
 .storyTitle{
   font-size:14px;
+  text-decoration: none;
+  color:#000;
 }
-.storyLink{
-  font-size:13px;
-}
+
 .bottom>ul{
   display:flex;
   list-style: none;
