@@ -4,19 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import onClickOutside from 'react-onclickoutside';
-
-
+import {storiesChange, popularityChange, timeChange, storiesDropdown,popularityDropdown,timeDropdown} from '../../articlesActions'
+import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as ActionCreators from '../../articlesActions'
+import {getStories,getPopularity,getTime} from '../../articles'
 class Search extends Component{
   constructor(props){
     super(props);
-    this.state={
-      stories: 'Stories',
-      popularity:'Popularity',
-      time: 'All time',
-      storiesOpen: false,
-      popularityOpen:false,
-      timeOpen:false,
-    }
+
   }
   handleStories = this.handleStories.bind(this);
   handlePopularity = this.handlePopularity.bind(this);
@@ -24,64 +20,46 @@ class Search extends Component{
   handleStoriesDropdown = this.handleStoriesDropdown.bind(this);
   handlePopularityDropdown = this.handlePopularityDropdown.bind(this);
   handleTimeDropdown = this.handleTimeDropdown.bind(this);
-  handleFilterChange = this.handleFilterChange.bind(this)
-
+  handleFilterChange = this.handleFilterChange.bind(this);
+  handleClickOutside = this.handleClickOutside.bind(this)
+  componentDidMount(){
+    window.addEventListener('mousedown', this.handleClickOutside)
+  }
   handleFilterChange(){
-    this.setState({
-        timeOpen: false,
-        storiesOpen:false,
-        popularityOpen:false
-      })
+
   }
-  handleClickOutside() {
-    this.setState({
-        timeOpen: false,
-        storiesOpen:false,
-        popularityOpen:false
-      })
-  }
+    handleClickOutside(e) {
+      console.log(e.currentTarget.parentElement.className)
+    }
     handleStories(e){
-      this.setState({
-        stories: e.currentTarget.innerText,
-      })
-      this.handleFilterChange()
+      const {storiesChange} = this.props;
+      storiesChange(e.currentTarget.innerText);
+      //console.log(e.currentTarget.parentElement.className)
     }
     handlePopularity(e){
-      this.setState({
-        popularity: e.currentTarget.innerText,
-      })
-      this.handleFilterChange()
+      const {popularityChange} = this.props;
+      popularityChange(e.currentTarget.innerText);
     }
     handleTime(e){
-      this.setState({
-        time: e.currentTarget.innerText,
-      })
-      this.handleFilterChange()
+      const {timeChange} = this.props;
+      timeChange(e.currentTarget.innerText);
     }
    handleStoriesDropdown(){
-      this.setState({
-        storiesOpen: !this.state.storiesOpen,
-        popularityOpen:false,
-        timeOpen: false,
-      })
+      const {storiesDropdown} = this.props;
+      storiesDropdown();
     };
     handlePopularityDropdown(){
-      this.setState({
-        popularityOpen: !this.state.popularityOpen,
-        storiesOpen:false,
-        timeOpen:false,
-      })
+      const {popularityDropdown} = this.props;
+      popularityDropdown();
     };
     handleTimeDropdown(){
-      this.setState({
-        timeOpen: !this.state.timeOpen,
-        storiesOpen:false,
-        popularityOpen:false,
-      })
+      const {timeDropdown} = this.props;
+      timeDropdown();
     };
 
 
   render(){
+    const {stories,popularity,time, storiesOpen, popularityOpen, timeOpen} = this.props.stories.filter
     return(
       <div className="filters">
         <div className="category">
@@ -90,8 +68,8 @@ class Search extends Component{
         <div className="category">
 
           <div className="dropdown"  >
-          <label onClick={this.handleStoriesDropdown} className="storiesLabel" style={{width:`${(6*this.state.stories.length)+50}px`}}>{this.state.stories} </label>
-        <ul className="storiesOpen" style={this.state.storiesOpen === true ? {display:'block'} : {display:'none'} } >
+          <label onClick={this.handleStoriesDropdown} className="storiesLabel" style={{width:`${(6*stories.length)+50}px`}}>{stories}</label>
+        <ul className="storiesOpen" style={storiesOpen === true ? {display:'block'} : {display:'none'} }  >
               <li onClick={this.handleStories}>All</li>
               <li onClick={this.handleStories}>Stories</li>
               <li onClick={this.handleStories}>Comments</li>
@@ -99,8 +77,8 @@ class Search extends Component{
           </div>
           <span>by</span>
           <div className="dropdown">
-          <label onClick={this.handlePopularityDropdown} style={{width:`${(6*this.state.popularity.length)+50}px`}}>{this.state.popularity}</label>
-        <ul className="popularityOpen" style={this.state.popularityOpen === true ? {display:'block'} : {display:'none'} }>
+          <label onClick={this.handlePopularityDropdown} style={{width:`${(6*popularity.length)+50}px`}}>{popularity}</label>
+        <ul className="popularityOpen" style={popularityOpen === true ? {display:'block'} : {display:'none'} } >
               <li onClick={this.handlePopularity}>Popularity</li>
               <li onClick={this.handlePopularity}>Date</li>
             </ul>
@@ -109,8 +87,8 @@ class Search extends Component{
         <div className="category">
           <span>for</span>
           <div className="dropdown">
-          <label onClick={this.handleTimeDropdown} style={{width:`${(6*this.state.time.length)+50}px`}}>{this.state.time}</label>
-        <ul className="timeOpen" style={this.state.timeOpen === true ? {display:'block'} : {display:'none'} }>
+          <label onClick={this.handleTimeDropdown} style={{width:`${(6*time.length)+50}px`}}>{time}</label>
+        <ul className="timeOpen" style={timeOpen === true ? {display:'block'} : {display:'none'} } >
               <li onClick={this.handleTime}>All time</li>
               <li onClick={this.handleTime}>Last 24h</li>
               <li onClick={this.handleTime}>Past Week</li>
@@ -124,5 +102,17 @@ class Search extends Component{
     )
   }
 }
+/// handle click outside !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const mapStateToProps = state => ({
+    stories: getStories(state),
+  })
+  const mapDispatchToProps = dispatch => bindActionCreators({
+    storiesChange: storiesChange,
+    popularityChange: popularityChange,
+    timeChange: timeChange,
+    storiesDropdown:storiesDropdown,
+    popularityDropdown:popularityDropdown,
+    timeDropdown:timeDropdown,
+  }, dispatch)
 
-export default onClickOutside(Search);
+export default connect(mapStateToProps,mapDispatchToProps)(Search);

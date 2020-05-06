@@ -4,16 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCog} from '@fortawesome/free-solid-svg-icons';
 
 class Header extends Component{
-  constructor(props){
-    super(props);
-  }
+
 
   render(){
     return(
       <header >
         <div className="navBar">
           <div className="logo">
-            <a href="#"><div className="logoH">H</div><span className="logoS">Search<br/> Hacker News</span></a>
+            <a href="/"><div className="logoH">H</div><span className="logoS">Search<br/> Hacker News</span></a>
           </div>
           <div className="searchBar">
             <input placeholder="Search stories by title, url or author" />
