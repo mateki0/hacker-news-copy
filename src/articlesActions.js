@@ -4,7 +4,7 @@ export function fetchArticles(query) {
   return dispatch => {
 
     dispatch(fetchArticlesBegins());
-    fetch(`http://hn.algolia.com/api/v1/${query}`)
+    fetch(`https://hacker-news.firebaseio.com/v0/item/${query}`)
     .then(res => res.json())
     .then(result=>{
       dispatch(fetchArticlesSuccess(result));
@@ -16,12 +16,7 @@ export function fetchArticles(query) {
 };
 }
 
-function handleErrors(response) {
-  if(!response.ok){
-    throw Error(response.statusText)
-  }
-  return response
-}
+
 
 
 
@@ -88,5 +83,12 @@ export const TOGGLE_TIME_DROPDOWN = 'TOGGLE_TIME_DROPDOWN';
 export const timeDropdown = () => {
   return{
     type: TOGGLE_TIME_DROPDOWN
+  }
+}
+
+export const CLICK_OUTSIDE = 'CLICK_OUTSIDE';
+export const closeDropdowns = () =>{
+  return{
+    type: 'CLICK_OUTSIDE'
   }
 }

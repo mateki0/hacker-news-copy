@@ -1,40 +1,49 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import './search.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
-import onClickOutside from 'react-onclickoutside';
-import {storiesChange, popularityChange, timeChange, storiesDropdown,popularityDropdown,timeDropdown} from '../../articlesActions'
+import {fetchArticles } from '../../articlesActions'
+//import onClickOutside from 'react-onclickoutside';
+import {storiesChange, popularityChange, timeChange, storiesDropdown,popularityDropdown,timeDropdown,closeDropdowns} from '../../articlesActions'
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as ActionCreators from '../../articlesActions'
-import {getStories,getPopularity,getTime} from '../../articles'
+import {getStories} from '../../articles'
 class Search extends Component{
-  constructor(props){
-    super(props);
 
-  }
   handleStories = this.handleStories.bind(this);
   handlePopularity = this.handlePopularity.bind(this);
   handleTime = this.handleTime.bind(this);
   handleStoriesDropdown = this.handleStoriesDropdown.bind(this);
   handlePopularityDropdown = this.handlePopularityDropdown.bind(this);
   handleTimeDropdown = this.handleTimeDropdown.bind(this);
-  handleFilterChange = this.handleFilterChange.bind(this);
-  handleClickOutside = this.handleClickOutside.bind(this)
-  componentDidMount(){
-    window.addEventListener('mousedown', this.handleClickOutside)
-  }
-  handleFilterChange(){
+  handleClickOutside = this.handleClickOutside.bind(this);
+  handleChange = this.handleChange.bind(this)
+  handleChange(){
+    const {fetchArticles} = this.props;
 
+    fetchArticles('search_by_date?query=...')
   }
-    handleClickOutside(e) {
-      console.log(e.currentTarget.parentElement.className)
+    componentDidMount(){
+      window.addEventListener('click', this.handleClickOutside,true)
     }
-    handleStories(e){
+    componentWillUnmount(){
+      window.removeEventListener('click', this.handleClickOutside, true)
+    }
+    handleClickOutside(e) {
+      const domNode = ReactDOM.findDOMNode(this);
+      console.log(e.currentTarget.innerText)
+      const {closeDropdowns} = this.props;
+      //if(domNode.contains(e.target) || domNode.className==="filters"){
+        closeDropdowns()
+      //}
+    }
+    handleStories(e) {
       const {storiesChange} = this.props;
+      const {filters} = this.props.stories.filter;
       storiesChange(e.currentTarget.innerText);
-      //console.log(e.currentTarget.parentElement.className)
+      console.log(this.props.stories.filter)
+
     }
     handlePopularity(e){
       const {popularityChange} = this.props;
@@ -62,32 +71,35 @@ class Search extends Component{
     const {stories,popularity,time, storiesOpen, popularityOpen, timeOpen} = this.props.stories.filter
     return(
       <div className="filters">
-        <div className="category">
+
           <span>Search</span>
-        </div>
+
         <div className="category">
 
-          <div className="dropdown"  >
-          <label onClick={this.handleStoriesDropdown} className="storiesLabel" style={{width:`${(6*stories.length)+50}px`}}>{stories}</label>
+          <div className="dropdown" style={{width:`${(6*stories.length)+50}px`}}>
+          <label onClick={this.handleStoriesDropdown} className="storiesLabel" >{stories}<FontAwesomeIcon icon={faChevronDown}/></label>
         <ul className="storiesOpen" style={storiesOpen === true ? {display:'block'} : {display:'none'} }  >
               <li onClick={this.handleStories}>All</li>
               <li onClick={this.handleStories}>Stories</li>
               <li onClick={this.handleStories}>Comments</li>
             </ul>
           </div>
+          </div>
           <span>by</span>
-          <div className="dropdown">
-          <label onClick={this.handlePopularityDropdown} style={{width:`${(6*popularity.length)+50}px`}}>{popularity}</label>
-        <ul className="popularityOpen" style={popularityOpen === true ? {display:'block'} : {display:'none'} } >
+        <div  className="category">
+          <div className="dropdown" style={{width:`${(6*popularity.length)+50}px`}}>
+          <label onClick={this.handlePopularityDropdown} >{popularity}<FontAwesomeIcon icon={faChevronDown}/></label>
+            <ul className="popularityOpen" style={popularityOpen === true ? {display:'block'} : {display:'none'} } >
               <li onClick={this.handlePopularity}>Popularity</li>
               <li onClick={this.handlePopularity}>Date</li>
             </ul>
           </div>
         </div>
+        <span>for</span>
         <div className="category">
-          <span>for</span>
-          <div className="dropdown">
-          <label onClick={this.handleTimeDropdown} style={{width:`${(6*time.length)+50}px`}}>{time}</label>
+
+          <div className="dropdown" style={{width:`${(6*time.length)+50}px`}}>
+          <label onClick={this.handleTimeDropdown} >{time}<FontAwesomeIcon icon={faChevronDown}/></label>
         <ul className="timeOpen" style={timeOpen === true ? {display:'block'} : {display:'none'} } >
               <li onClick={this.handleTime}>All time</li>
               <li onClick={this.handleTime}>Last 24h</li>
@@ -97,6 +109,9 @@ class Search extends Component{
               <li onClick={this.handleTime}>Custom Range</li>
             </ul>
           </div>
+        </div>
+        <div>
+          <button onClick={this.handleChange}>Change!</button>
         </div>
       </div>
     )
@@ -113,6 +128,8 @@ class Search extends Component{
     storiesDropdown:storiesDropdown,
     popularityDropdown:popularityDropdown,
     timeDropdown:timeDropdown,
+    closeDropdowns:closeDropdowns,
+    fetchArticles: fetchArticles,
   }, dispatch)
 
 export default connect(mapStateToProps,mapDispatchToProps)(Search);

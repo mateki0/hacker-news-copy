@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import './body.css';
 import '../Search/search.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import Moment from 'react-moment';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
@@ -13,21 +10,18 @@ import {getArticles, getError,getLoading} from '../../articles'
 class Body extends Component{
   constructor(props){
     super(props);
-    this.handleChange = this.handleChange.bind(this)
+
   }
 
   componentDidMount() {
     console.log(this.props)
     const {fetchArticles} = this.props;
-    fetchArticles('search?query=...')
-  }
-  handleChange(){
-    const {fetchArticles} = this.props;
-    fetchArticles('search_by_date?query=...')
+    fetchArticles('8863.json?print=pretty')
   }
 
+
   render(){
-    const {articles, loading,  error } = this.props;
+    const {articles,  error } = this.props;
 
     if(articles.articles.hits === undefined){
        return <div>Loading..</div>
@@ -37,7 +31,6 @@ class Body extends Component{
      }
     return(
       <div>
-        <button onClick={this.handleChange}>change!</button>
         <div className="SearchResults">
             {articles.articles.hits.map(item=> (
 

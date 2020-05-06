@@ -7,7 +7,8 @@ import {
   CHANGE_TIME_FILTER,
   TOGGLE_STORIES_DROPDOWN,
   TOGGLE_POPULARITY_DROPDOWN,
-  TOGGLE_TIME_DROPDOWN
+  TOGGLE_TIME_DROPDOWN,
+  CLICK_OUTSIDE
 } from './articlesActions';
 import { combineReducers } from 'redux';
 
@@ -72,12 +73,12 @@ export function filter (state = initialFilters, action) {
     console.log('pop')
       return{
         ...state,
-        popularity:'Date'
+        popularity:action.data
       }
     case CHANGE_TIME_FILTER:
       return{
         ...state,
-        time:'Last 24h'
+        time:action.data
       }
     case TOGGLE_STORIES_DROPDOWN:
     return{
@@ -100,6 +101,13 @@ export function filter (state = initialFilters, action) {
       storiesOpen:false,
       popularityOpen:false
     }
+    case CLICK_OUTSIDE:
+      return{
+        ...state,
+        timeOpen:false,
+        storiesOpen:false,
+        popularityOpen:false
+      }
     default:
       return state
   }
