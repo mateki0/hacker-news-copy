@@ -17,7 +17,7 @@ class Body extends Component{
   incrementPage = this.incrementPage.bind(this)
   componentDidMount() {
     const {fetchArticles} = this.props;
-    fetchArticles('newstories.json?print=pretty', 0)
+    fetchArticles('newcomments', 0)
   }
   fetchNewPage(e){
     const {fetchArticles, changePage} = this.props;
@@ -55,7 +55,8 @@ class Body extends Component{
        pages.push(<li key={i} className="pageNumber" onClick={this.fetchNewPage} style={page===i ? activePage : nonActivePage}>{i}</li>)
      }
 
-     console.log(pages)
+     console.log(this.props)
+
     return(
       <div className="body">
         <div className="SearchResults">
@@ -72,7 +73,7 @@ class Body extends Component{
                             <ul>
                               <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item.score !== null ? item.score : 0} points,</a></li>
                             <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item.by}</a></li>
-                          <li><a href={'https://news.ycombinator.com/item?id=' + item.id}><Moment fromNow>{item['time']}</Moment></a></li>
+                          <li><a href={'https://news.ycombinator.com/item?id=' + item.id}><Moment fromNow unix>{item['time']}</Moment></a></li>
                         <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item['kids'] !== undefined ? item['kids'].length : 0} Comments</a></li>
                             </ul>
                           </div>

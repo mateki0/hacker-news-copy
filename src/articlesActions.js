@@ -14,7 +14,7 @@ export function fetchArticles(query, page) {
   return dispatch => {
 
     dispatch(fetchArticlesBegins());
-    fetch(`https://hacker-news.firebaseio.com/v0/${query}`)
+    fetch(`https://hacker-news.firebaseio.com/v0/${query}.json?print=pretty`)
     .then(res => res.json())
     .then(result=>{
 

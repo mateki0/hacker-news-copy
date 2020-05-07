@@ -55,7 +55,7 @@ header{
 .searchBar>input{
   border:none;
   width:100%;
-  padding: 16px 144px 16px 54px;
+  padding: 16px 144px 16px 20px;
   height:42px;
   font-weight:300;
   color:rgba(0,0,0,0.75);
@@ -92,4 +92,10 @@ header{
   margin:0 8px;
   font-size:12px;
   color: #477dca;
+}
+.fa-search{
+  font-size:20px;
+}
+.fa-search:hover{
+  cursor:pointer;
 }

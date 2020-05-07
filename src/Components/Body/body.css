@@ -12,8 +12,7 @@
 }
 .storyLink{
   margin-left:5px;
-  color:rgba(0,0,0,0.5);
-
+  color:rgba(0,0,0,0.6);
   font-size:13px;
 }
 .bottom{
@@ -36,11 +35,11 @@
   padding:0 8px;
 }
 .bottom>ul>li>a{
-  color:rgba(0,0,0,0.85);
+  color:rgba(0,0,0,0.6);
   text-decoration:none;
 }
 .bottom>ul>li:not(:last-child){
-  border-right: 2px solid rgba(0,0,0,0.5)
+  border-right: 1px solid rgba(0,0,0,0.6)
 }
 
 .choosePage>ul{
@@ -51,18 +50,15 @@
 .pageNumber{
   padding:2px 8px;
   border:1px solid rgba(0,0,0,0.5);
-
 }
 .choosePage>ul>li:not(:first-child){
   margin-left:3px;
 }
 .pageNumber:hover{
-
   cursor:pointer
 }
 .fa-angle-double-left,.fa-angle-double-right{
   color:rgba(0,0,0,0.5);
-
 }
 .choosePage{
   padding-bottom:5px;
