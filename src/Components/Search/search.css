@@ -5,7 +5,7 @@
   display:flex;
   padding:8px;
   height:42px;
-
+  background: #f6f6ef;
 }
 .category{
   display:flex;

@@ -1,3 +1,6 @@
+.body{
+  background: #f6f6ef;
+}
 .singleStory{
   display:flex;
   align-items: center;
@@ -37,5 +40,30 @@
   text-decoration:none;
 }
 .bottom>ul>li:not(:last-child){
-  border-right: 2px solid rgba(0,0,0,0.25)
+  border-right: 2px solid rgba(0,0,0,0.5)
+}
+
+.choosePage>ul{
+  list-style: none;
+  display:flex;
+  justify-content: center;
+}
+.pageNumber{
+  padding:2px 8px;
+  border:1px solid rgba(0,0,0,0.5);
+
+}
+.choosePage>ul>li:not(:first-child){
+  margin-left:3px;
+}
+.pageNumber:hover{
+
+  cursor:pointer
+}
+.fa-angle-double-left,.fa-angle-double-right{
+  color:rgba(0,0,0,0.5);
+
+}
+.choosePage{
+  padding-bottom:5px;
 }

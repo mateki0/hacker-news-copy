@@ -8,14 +8,18 @@ import {
   TOGGLE_STORIES_DROPDOWN,
   TOGGLE_POPULARITY_DROPDOWN,
   TOGGLE_TIME_DROPDOWN,
-  CLICK_OUTSIDE
+  CLICK_OUTSIDE,
+  PAGE_INCREMENT,
+  PAGE_DECREMENT,
+  PAGE_CHANGE
 } from './articlesActions';
 import { combineReducers } from 'redux';
 
 const initialState ={
   articles: [],
   loading: false,
-  error:null
+  error:null,
+  page:1,
 }
 
 function articles(state = initialState, action){
@@ -42,7 +46,21 @@ function articles(state = initialState, action){
         error:action.payload.error,
         articles: []
       }
-
+    case PAGE_INCREMENT:
+    return {
+      ...state,
+      page: state.page++
+    }
+    case PAGE_DECREMENT:
+    return {
+      ...state,
+      page: state.page--
+    }
+    case PAGE_CHANGE:
+    return {
+      ...state,
+      page:action.number
+    }
     default:
       return state
   }
@@ -51,6 +69,7 @@ function articles(state = initialState, action){
 export const getArticles = state => state.articles;
 export const getLoading = state => state.loading;
 export const getError = state => state.error;
+export const getPage = state => state.page;
 
 
 const initialFilters = {
@@ -59,7 +78,7 @@ const initialFilters = {
   time: 'All time',
   storiesOpen: false,
   popularityOpen:false,
-  timeOpen:false
+  timeOpen:false,
 }
 export function filter (state = initialFilters, action) {
   switch (action.type) {
@@ -108,6 +127,7 @@ export function filter (state = initialFilters, action) {
         storiesOpen:false,
         popularityOpen:false
       }
+
     default:
       return state
   }

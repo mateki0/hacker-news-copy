@@ -14,12 +14,7 @@ class Header extends Component{
             <a href="/"><div className="logoH">H</div><span className="logoS">Search<br/> Hacker News</span></a>
           </div>
           <div className="searchBar">
-
             <input placeholder="Search stories by title, url or author" />
-            <div className="searchBy">
-              <span className="searchByFirst">Search by</span>
-              <span className="searchByAlgolia">algolia</span>
-            </div>
           </div>
           <div className="settings">
             <FontAwesomeIcon icon={faCog}/>

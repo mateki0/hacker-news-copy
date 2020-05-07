@@ -4,54 +4,87 @@ import '../Search/search.css';
 import Moment from 'react-moment';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
-import {fetchArticles } from '../../articlesActions'
-import {getArticles, getError,getLoading} from '../../articles'
-
+import {fetchArticles,incrementPage, decrementPage,changePage } from '../../articlesActions'
+import {getArticles, getError,getLoading, getPage} from '../../articles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faAngleDoubleLeft,faAngleDoubleRight} from '@fortawesome/free-solid-svg-icons';
 class Body extends Component{
   constructor(props){
     super(props);
 
   }
-
+  fetchNewPage = this.fetchNewPage.bind(this)
+  incrementPage = this.incrementPage.bind(this)
   componentDidMount() {
-    console.log(this.props)
     const {fetchArticles} = this.props;
-    fetchArticles('8863.json?print=pretty')
+    fetchArticles('newstories.json?print=pretty', 0)
+  }
+  fetchNewPage(e){
+    const {fetchArticles, changePage} = this.props;
+    let page = e.currentTarget.innerText
+    fetchArticles('newstories.json?print=pretty', page);
+
+  }
+  incrementPage(){
+    const {incrementPage, changePage , fetchArticles} = this.props
+    const {page} = this.props.articles
+    incrementPage()
+    fetchArticles('newstories.json?print=pretty', page+1);
+    changePage(page+1)
+    console.log(this.props)
   }
 
-
   render(){
-    const {articles,  error } = this.props;
+    const {articles, error} = this.props;
+    const {page} = this.props.articles
 
-    if(articles.articles.hits === undefined){
+    if(articles.articles.length !== 20){
        return <div>Loading..</div>
      }
      if(error){
        return <div>Error! {error.message}</div>
      }
-    return(
-      <div>
-        <div className="SearchResults">
-            {articles.articles.hits.map(item=> (
+     let pages = [];
 
-            <article key={item.objectID} className="singleStory">
-              <div>
-                <div className="header">
-                  <a href={'https://news.ycombinator.com/item?id=' + item.objectID}
-                  className="storyTitle">{item['story_title'] !== null ? item['story_title'] : item['title']}</a>
-                <a href={item['story_url'] === null ? item['url'] : item['story_url']} className="storyLink">({item['story_url'] === null ? item['url'] : item['story_url']})</a>
-                </div>
-                <div className="bottom">
-                  <ul>
-                    <li><a href={'https://news.ycombinator.com/item?id=' + item.objectID}>{item.points !== null ? item.points : 0} points,</a></li>
-                    <li><a href={'https://news.ycombinator.com/item?id=' + item.objectID}>{item.author}</a></li>
-                    <li><a href={'https://news.ycombinator.com/item?id=' + item.objectID}><Moment fromNow>{item['created_at']}</Moment></a></li>
-                    <li><a href={'https://news.ycombinator.com/item?id=' + item.objectID}>{item['num_comments'] !== null ? item['num_comments'] : 0} Comments</a></li>
-                  </ul>
-                </div>
-              </div>
-            </article>
-          ))}
+     if(page>1){
+       pages.push(<li key="backward" className="pageNumber" onClick={this.decrementPage}> <FontAwesomeIcon icon={faAngleDoubleLeft}/> </li>)
+     }
+     const activePage = {color:'#FF742B', border:'1px solid #FF742B'}
+     const nonActivePage = {color:'rgba(0,0,0,0.5)', border:'1px solid rgba(0,0,0,0.5)'}
+     for(var i=parseInt(page); i<=parseInt(page)+5; i++){
+       pages.push(<li key={i} className="pageNumber" onClick={this.fetchNewPage} style={page===i ? activePage : nonActivePage}>{i}</li>)
+     }
+
+     console.log(pages)
+    return(
+      <div className="body">
+        <div className="SearchResults">
+          {articles.articles.map(item=> (
+
+                      <article key={item.id} className="singleStory">
+                        <div>
+                          <div className="header">
+                            <a href={'https://news.ycombinator.com/item?id=' + item.id}
+                            className="storyTitle">{item['title']}</a>
+                          <a href={item['url']} className="storyLink">({item['url']})</a>
+                          </div>
+                          <div className="bottom">
+                            <ul>
+                              <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item.score !== null ? item.score : 0} points,</a></li>
+                            <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item.by}</a></li>
+                          <li><a href={'https://news.ycombinator.com/item?id=' + item.id}><Moment fromNow>{item['time']}</Moment></a></li>
+                        <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item['kids'] !== undefined ? item['kids'].length : 0} Comments</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+          </div>
+          <div className="choosePage">
+            <ul>
+                {pages}
+                <li key="forward" className="pageNumber" onClick={this.incrementPage}><FontAwesomeIcon icon={faAngleDoubleRight}/></li>
+            </ul>
           </div>
       </div>
     )
@@ -61,10 +94,14 @@ class Body extends Component{
   const mapStateToProps = state => ({
     articles: getArticles(state),
     loading: getLoading(state),
-    error: getError(state)
+    error: getError(state),
+    page: getPage(state)
   })
   const mapDispatchToProps = dispatch => bindActionCreators({
-    fetchArticles: fetchArticles
+    fetchArticles: fetchArticles,
+    incrementPage: incrementPage,
+    decrementPage: decrementPage,
+    changePage:changePage,
   }, dispatch)
 
 
