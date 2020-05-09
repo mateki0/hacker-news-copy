@@ -9,11 +9,13 @@ import {getArticles} from '../../articles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faAngleDoubleLeft,faAngleDoubleRight} from '@fortawesome/free-solid-svg-icons';
 class Body extends Component{
-  
+
   fetchNewPage = this.fetchNewPage.bind(this)
   incrementPage = this.incrementPage.bind(this)
+  handleFrom = this.handleFrom.bind(this)
   componentDidMount() {
     const {fetchArticles} = this.props;
+    console.log(this.props)
     fetchArticles('beststories', 0)
   }
   fetchNewPage(e){
@@ -26,7 +28,7 @@ class Body extends Component{
   incrementPage(){
     const {incrementPage, changePage , fetchArticles} = this.props
     const {page} = this.props.articles
-    console.log(this.props)
+
     incrementPage()
     fetchArticles(this.props.articles.currentFilter, page+1);
     changePage(page+1)
@@ -37,9 +39,14 @@ class Body extends Component{
     decrementPage()
     fetchArticles(this.props.articles.currentFilter, page-1);
     changePage(page-1)
-
   }
 
+  handleFrom(e){
+    const {fetchArticles} = this.props;
+    let url = e.currentTarget.innerText.slice(1,e.currentTarget.innerText.length-1);
+    console.log(url)
+    fetchArticles(url,1)
+  }
   render(){
     const {articles, error} = this.props;
     const {page} = this.props.articles
@@ -60,17 +67,23 @@ class Body extends Component{
      for(var i=parseInt(page); i<=parseInt(page)+5; i++){
        pages.push(<li key={i} className="pageNumber" onClick={this.fetchNewPage} style={parseInt(page)===i ? activePage : nonActivePage}>{i}</li>)
      }
+     function splitted(url){
+       let splitted = url.split('/');
+       return splitted[2]
+     }
+     console.log(this.props)
     return(
       <div className="body">
         <div className="SearchResults">
-          {articles.articles.map(item=> (
+          {articles.articles.map(item=>(
 
                       <article key={item.id} className="singleStory">
                         <div>
                           <div className="header">
                             <a href={'https://news.ycombinator.com/item?id=' + item.id}
                             className="storyTitle">{item['title']}</a>
-                          <a href={item['url']} className="storyLink">({item['url']})</a>
+
+                          <a href={item['url'] !== undefined ? `https://news.ycombinator.com/from?site=${splitted(item['url'])}` : "No url provided"} className="storyLink">({item['url'] !== undefined ? splitted(item['url']) : "No url provided"})</a>
                           </div>
                           <div className="bottom">
                             <ul>

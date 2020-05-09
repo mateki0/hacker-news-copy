@@ -38,11 +38,11 @@ class Search extends Component{
     return(
       <div className="filters">
         <ul>
-          <li className="filter" style={this.props.articles.currentFilter == 'newstories' ? active : nonActive} onClick={this.handleFilter}>New</li>
-          <li className="filter" style={this.props.articles.currentFilter == 'topstories' ? active : nonActive} onClick={this.handleFilter}>Top</li>
-          <li className="filter" style={this.props.articles.currentFilter == 'askstories' ? active : nonActive} onClick={this.handleFilter}>Ask</li>
-          <li className="filter" style={this.props.articles.currentFilter == 'showstories' ? active : nonActive} onClick={this.handleFilter}>Show</li>
-          <li className="filter" style={this.props.articles.currentFilter == 'jobstories' ? active : nonActive} onClick={this.handleFilter}>Jobs</li>
+          <li className="filter" style={this.props.articles.currentFilter === 'newstories' ? active : nonActive} onClick={this.handleFilter}>New</li>
+          <li className="filter" style={this.props.articles.currentFilter === 'topstories' ? active : nonActive} onClick={this.handleFilter}>Top</li>
+          <li className="filter" style={this.props.articles.currentFilter === 'askstories' ? active : nonActive} onClick={this.handleFilter}>Ask</li>
+          <li className="filter" style={this.props.articles.currentFilter === 'showstories' ? active : nonActive} onClick={this.handleFilter}>Show</li>
+          <li className="filter" style={this.props.articles.currentFilter === 'jobstories' ? active : nonActive} onClick={this.handleFilter}>Jobs</li>
         </ul>
       </div>
     )
