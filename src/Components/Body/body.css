@@ -1,3 +1,6 @@
+.body{
+  background:#f6f6ef;
+}
 .singleStory{
   display:flex;
   align-items: center;
@@ -7,20 +10,21 @@
   display:flex;
   padding:2px 8px;
 }
-.header>a{
+.storyLink{
   margin-left:5px;
   color:rgba(0,0,0,0.5);
-  text-decoration: none;
+
+  font-size:13px;
 }
 .bottom{
 
 }
 .storyTitle{
   font-size:14px;
+  text-decoration: none;
+  color:#000;
 }
-.storyLink{
-  font-size:13px;
-}
+
 .bottom>ul{
   display:flex;
   list-style: none;
@@ -37,4 +41,26 @@
 }
 .bottom>ul>li:not(:last-child){
   border-right: 2px solid rgba(0,0,0,0.25)
+}
+.choosePage{
+  padding-bottom:5px;
+}
+.choosePage>ul{
+  list-style:none;
+  display:flex;
+  justify-content: center;
+}
+.choosePage>ul>li:not(:first-child){
+  margin-left:4px;
+}
+.pageNumber{
+  padding: 2px 8px;
+  border:1px solid rgba(0,0,0,0.5)
+}
+.pageNumber:hover{
+  cursor:pointer;
+}
+
+.fa-angle-double-left,.fa-angle-double-right{
+  color: rgba(0,0,0,0.5)
 }

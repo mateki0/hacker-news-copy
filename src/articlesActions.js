@@ -33,21 +33,6 @@ export function fetchArticles(query, page) {
 };
 }
 
-// export function fetchItems(query) {
-//   return dispatch => {
-//     dispatch (fetchItemsBegins());
-//     fetch(`https://hacker-news.firebaseio.com/v0/item/${query}.json?print=pretty`)
-//       .then(res=> res.json())
-//       .then(result => {
-//         dispatch(fetchItemsSuccess(result))
-//       })
-//   }
-// }
-
-
-
-
-
 export const FETCH_ARTICLES_BEGINS = 'FETCH_ARTICLES_BEGINS';
 export const fetchArticlesBegins = () => ({
   type: FETCH_ARTICLES_BEGINS
