@@ -34,7 +34,7 @@ class Body extends Component{
     changePage(page+1)
   }
   decrementPage(){
-    const {incrementPage, changePage , fetchArticles} = this.props
+    const {changePage, fetchArticles} = this.props
     const {page} = this.props.articles
     decrementPage()
     fetchArticles(this.props.articles.currentFilter, page-1);

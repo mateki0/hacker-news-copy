@@ -27,6 +27,8 @@ class Search extends Component{
       case 'Jobs':
       query = 'jobstories';
       break;
+      default:
+      query = ''
     }
       filterChange(query)
       fetchArticles(query, 1)
