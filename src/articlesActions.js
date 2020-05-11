@@ -33,6 +33,35 @@ export function fetchArticles(query, page) {
 };
 }
 
+export function fetchUserPosts(query, page){
+  // let arr = [];
+  // let sliceMin;
+  // let sliceMax
+  // if(page > 0){
+  //   sliceMin = 0 + ((20*page)+1);
+  //   sliceMax = 20 + ((20*page)+1);
+  // } else{
+  //   sliceMin = 0;
+  //   sliceMax = 20;
+  // }
+  return dispatch => {
+    dispatch(fetchArticlesBegins);
+    fetch(`https://hacker-news.firebaseio.com/v0/user/${query}.json?print=pretty`)
+      .then(res => res.json())
+      .then(result => dispatch(fetchUserPostsSuccess(result)))
+      // .then(result =>{
+      //   result.submitted.slice(sliceMin,sliceMax).map(a=>{
+      //     arr.push(a)
+      //   })
+      //   dispatch(fetchUserPostsSuccess(arr)) })
+  }
+}
+
+export const FETCH_USERPOSTS_SUCCESS = 'FETCH_USERPOSTS_SUCCESS'
+export const fetchUserPostsSuccess = (posts) => ({
+  type: FETCH_USERPOSTS_SUCCESS,
+  payload: {posts}
+})
 export const FETCH_ARTICLES_BEGINS = 'FETCH_ARTICLES_BEGINS';
 export const fetchArticlesBegins = () => ({
   type: FETCH_ARTICLES_BEGINS
@@ -50,6 +79,11 @@ export const fetchArticlesFailure = error => ({
   payload: {error}
 })
 
+export const SEND_USER_NAME = 'SEND_USER_NAME';
+export const sendUserName = (name) => ({
+  type: SEND_USER_NAME,
+  name: name
+})
 
 export const PAGE_INCREMENT = 'PAGE_INCREMENT';
 export const incrementPage = () => ({

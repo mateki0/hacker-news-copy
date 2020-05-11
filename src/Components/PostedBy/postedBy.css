@@ -1,0 +1,37 @@
+.categories{
+  color:rgba(0,0,0,0.5);
+  font-size:13px;
+}
+.link{
+  color:#000;
+  text-decoration: none;
+}
+.name,.points{
+  color:rgba(0,0,0,0.5);
+  text-decoration: none;
+}
+.userAbout>a{
+  color:#000;
+}
+.leftColumn{
+  display:flex;
+  flex-direction: column;
+  color:rgba(0,0,0,0.5);
+}
+
+.rightColumn{
+  display:flex;
+  flex-direction: column;
+}
+.container{
+  padding:15px 0 50px 5px;
+  display:grid;
+  grid-template-columns: 60px 200px;
+  font-size:14px;
+}
+
+.userAbout{
+  display:flex;
+  flex-direction:column;
+  margin-top:15px;
+}

@@ -1,23 +1,29 @@
 import React, {Component} from 'react';
 import './body.css';
-import '../Search/search.css';
+
 import Moment from 'react-moment';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
-import {fetchArticles,incrementPage, decrementPage,changePage } from '../../articlesActions'
+import {fetchArticles,incrementPage, decrementPage,changePage, fetchUserPosts, sendUserName } from '../../articlesActions'
 import {getArticles} from '../../articles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faAngleDoubleLeft,faAngleDoubleRight} from '@fortawesome/free-solid-svg-icons';
+import {Link, BrowserRouter, Route,Router} from 'react-router-dom';
+import Search from '../Search/search.js';
 class Body extends Component{
 
   fetchNewPage = this.fetchNewPage.bind(this)
   incrementPage = this.incrementPage.bind(this)
+  decrementPage = this.decrementPage.bind(this)
   handleFrom = this.handleFrom.bind(this)
+  handleBy = this.handleBy.bind(this)
   componentDidMount() {
     const {fetchArticles} = this.props;
-    console.log(this.props)
-    fetchArticles('beststories', 0)
+
+    fetchArticles('beststories', 0);
+
   }
+
   fetchNewPage(e){
     const {fetchArticles, changePage} = this.props;
     let page = e.currentTarget.innerText;
@@ -47,6 +53,13 @@ class Body extends Component{
     console.log(url)
     fetchArticles(url,1)
   }
+  handleBy(e){
+    const {sendUserName} = this.props
+    console.log(sendUserName)
+    sendUserName(e.currentTarget.innerText)
+    //window.location.reload()
+  }
+
   render(){
     const {articles, error} = this.props;
     const {page} = this.props.articles
@@ -71,9 +84,11 @@ class Body extends Component{
        let splitted = url.split('/');
        return splitted[2]
      }
-     console.log(this.props)
+
+
     return(
       <div className="body">
+      <Search/>
         <div className="SearchResults">
           {articles.articles.map(item=>(
 
@@ -86,12 +101,16 @@ class Body extends Component{
                           <a href={item['url'] !== undefined ? `https://news.ycombinator.com/from?site=${splitted(item['url'])}` : "No url provided"} className="storyLink">({item['url'] !== undefined ? splitted(item['url']) : "No url provided"})</a>
                           </div>
                           <div className="bottom">
+
                             <ul>
                               <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item.score !== null ? item.score : 0} points,</a></li>
-                            <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item.by}</a></li>
-                          <li><a href={'https://news.ycombinator.com/item?id=' + item.id}><Moment fromNow>{item['time']}</Moment></a></li>
+                              <BrowserRouter>
+                              <li onClick={this.handleBy} ><Link to='/postedBy' >{item.by}</Link></li>
+                          </BrowserRouter>
+                          <li><a href={'https://news.ycombinator.com/item?id=' + item.id}><Moment fromNow unix>{item['time']}</Moment></a></li>
                         <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item['kids'] !== undefined ? item['kids'].length : 0} Comments</a></li>
                             </ul>
+
                           </div>
                         </div>
                       </article>
@@ -116,6 +135,8 @@ class Body extends Component{
     incrementPage: incrementPage,
     decrementPage: decrementPage,
     changePage:changePage,
+    fetchUserPosts:fetchUserPosts,
+    sendUserName:sendUserName,
   }, dispatch)
 
 

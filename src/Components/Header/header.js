@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCog} from '@fortawesome/free-solid-svg-icons';
+import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
 class Header extends Component{
   render(){
@@ -14,8 +15,7 @@ class Header extends Component{
           <div className="searchBar">
             <input placeholder="Search stories by title, url or author" />
             <div className="searchBy">
-              <span className="searchByFirst">Search by</span>
-              <span className="searchByAlgolia">algolia</span>
+              <FontAwesomeIcon icon={faSearch}/>
             </div>
           </div>
           <div className="settings">
