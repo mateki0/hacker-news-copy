@@ -3,9 +3,34 @@ import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCog} from '@fortawesome/free-solid-svg-icons';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
-
+import {getArticles} from '../../articles';
+import {Search} from '../../articlesActions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux'
 class Header extends Component{
+  handleSearch = this.handleSearch.bind(this)
+  handleSearch(e){
+    e.preventDefault()
+    const {Search} = this.props
+    const {articles} = this.props.articles;
+    const input = document.querySelector('.searchInput').value
+    let arr= [];
+    articles.map(a=>{
+      if((a['by'] !== undefined && a['by'].includes(input))
+      || (a['title'] !== undefined && a['title'].includes(input))
+      || (a['url'] !== undefined && a['url'].includes(input)))
+      {
+
+        arr.push(a)
+      }
+    })
+
+    Search(arr, input)
+
+  }
+
   render(){
+console.log(this.props.articles)
     return(
       <header >
         <div className="navBar">
@@ -13,14 +38,14 @@ class Header extends Component{
             <a href="/"><div className="logoH">H</div><span className="logoS">Search<br/> Hacker News</span></a>
           </div>
           <div className="searchBar">
-            <input placeholder="Search stories by title, url or author" />
+            <input className="searchInput" placeholder="Search stories by title, url or author in current filter" />
             <div className="searchBy">
-              <FontAwesomeIcon icon={faSearch}/>
+              <FontAwesomeIcon onClick={this.handleSearch} icon={faSearch}/>
             </div>
           </div>
           <div className="settings">
-            <FontAwesomeIcon icon={faCog}/>
-            <span>Settings</span>
+            {/* <FontAwesomeIcon icon={faCog}/>
+            <span>Settings</span> */}
           </div>
         </div>
       </header>
@@ -28,5 +53,11 @@ class Header extends Component{
     )
   }
 }
+const mapStateToProps = state => ({
+  articles: getArticles(state),
+});
 
-export default Header;
+const mapDispatchToProps = dispatch => bindActionCreators({
+  Search:Search
+}, dispatch)
+export default connect(mapStateToProps,mapDispatchToProps)(Header);

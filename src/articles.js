@@ -7,29 +7,40 @@ import {
   PAGE_INCREMENT,
   PAGE_DECREMENT,
   PAGE_CHANGE,
-  SEND_USER_NAME
+  SEND_USER_NAME,
+  SEARCH,
 } from './articlesActions';
 import { combineReducers } from 'redux';
 
 const initialState ={
   articles: [],
+  searched:false,
   loading: false,
   error:null,
   page:1,
   currentFilter: 'beststories',
-  userPosts:[],
+  currentSearched: '',
+  searchedPosts:[],
   userName:''
 }
 
 function articles(state = initialState, action){
   switch (action.type){
 
-    case FETCH_USERPOSTS_SUCCESS:
-    return {
+    case SEARCH:
+    return{
       ...state,
       loading:false,
-      userPosts: action.payload.posts
+      searched:true,
+      searchedPosts: action.payload.data,
+      currentSearched: action.currentSearched,
+      page: 1
     }
+    case FETCH_USERPOSTS_SUCCESS:
+      return {
+        ...state,
+        userPosts: action.payload.posts
+      }
 
     case FETCH_ARTICLES_BEGINS:
       return  {
@@ -43,7 +54,9 @@ function articles(state = initialState, action){
       return {
         ...state,
         loading:false,
-        articles: action.payload.articles
+        articles: action.payload.articles,
+        searchedPosts: [],
+        searched:false,
       }
 
 
@@ -56,22 +69,22 @@ function articles(state = initialState, action){
       }
 
     case PAGE_INCREMENT:
-    return {
-      ...state,
-      page: state.page++
-    }
+      return {
+        ...state,
+        page: state.page++
+      }
 
     case PAGE_DECREMENT:
-    return {
-      ...state,
-      page: state.page--
-    }
+      return {
+        ...state,
+        page: state.page--
+      }
 
     case PAGE_CHANGE:
-    return {
-      ...state,
-      page:action.number
-    }
+      return {
+        ...state,
+        page:action.number
+      }
 
     case CHANGE_FILTER:
       return{
@@ -79,11 +92,11 @@ function articles(state = initialState, action){
         currentFilter:action.data
       }
 
-      case SEND_USER_NAME:
-      console.log(action.name)
+    case SEND_USER_NAME:
+      console.log(action.payload.name)
       return{
         ...state,
-        userName: action.name
+        userName: action.payload.name
       }
     default:
       return state

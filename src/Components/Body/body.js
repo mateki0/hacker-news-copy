@@ -19,9 +19,7 @@ class Body extends Component{
   handleBy = this.handleBy.bind(this)
   componentDidMount() {
     const {fetchArticles} = this.props;
-
     fetchArticles('beststories', 0);
-
   }
 
   fetchNewPage(e){
@@ -50,8 +48,8 @@ class Body extends Component{
   handleFrom(e){
     const {fetchArticles} = this.props;
     let url = e.currentTarget.innerText.slice(1,e.currentTarget.innerText.length-1);
-    console.log(url)
-    fetchArticles(url,1)
+    console.log(url);
+    fetchArticles(url,1);
   }
   handleBy(e){
     const {sendUserName} = this.props
@@ -61,36 +59,127 @@ class Body extends Component{
   }
 
   render(){
-    const {articles, error} = this.props;
+    const {articles} = this.props;
+    const {error, loading} = this.props.articles;
     const {page} = this.props.articles
+    console.log(loading)
 
-    if(articles.articles.length !== 20){
-       return <div>Loading..</div>
-     }
      if(error){
        return <div>Error! {error.message}</div>
      }
-     let pages = [];
+     if(loading === true){
+       return <div>Loading...</div>
+     }
 
-     if(page>1){
-       pages.push(<li key="backward" className="pageNumber" onClick={this.decrementPage}> <FontAwesomeIcon icon={faAngleDoubleLeft}/> </li>)
-     }
-     const activePage = {color:'#FF742B', border:'1px solid #FF742B'}
-     const nonActivePage = {color:'rgba(0,0,0,0.5)', border:'1px solid rgba(0,0,0,0.5)'}
-     for(var i=parseInt(page); i<=parseInt(page)+5; i++){
-       pages.push(<li key={i} className="pageNumber" onClick={this.fetchNewPage} style={parseInt(page)===i ? activePage : nonActivePage}>{i}</li>)
-     }
      function splitted(url){
        let splitted = url.split('/');
+       if(articles.searched === false){
        return splitted[2]
+     } else{
+       return url
+     }
      }
 
+     let arr = [];
+     let sliceMin;
+     let sliceMax
+     let sliced;
+     switch(parseInt(page)){
+       case 1:
+       sliceMin = 0;
+       sliceMax = 20;
+       break;
+       case 2:
+       sliceMin = 20;
+       sliceMax = 40;
+       break;
+       case 3:
+       sliceMin = 40;
+       sliceMax = 60;
+       break;
+       case 4:
+       sliceMin = 60;
+       sliceMax = 80;
+       break;
+       case 5:
+       sliceMin = 80;
+       sliceMax = 100;
+       break;
+       case 6:
+       sliceMin = 100;
+       sliceMax = 120;
+       break;
+       case 7:
+       sliceMin = 120;
+       sliceMax = 140;
+       break;
+       case 8:
+       sliceMin = 140;
+       sliceMax = 160;
+       break;
+       case 9:
+       sliceMin = 160;
+       sliceMax = 180;
+       break;
+       case 10:
+       sliceMin = 180;
+       sliceMax = 200;
+       break;
 
+     }
+       if(articles.searched === true && articles.searchedPosts.length >20){
+         sliced = articles.searchedPosts.slice(sliceMin,sliceMax)
+       } else if(articles.searched === true && articles.searchedPosts.length<20){
+         sliced = articles.searchedPosts
+       }
+       if(articles.searched === false){
+         sliced = articles.articles.slice(sliceMin,sliceMax)
+       }
+     // if((articles.articles.length > 20 && sliced.length !== 20 && articles.searched === false) || (articles.searchedPosts.length>20 && sliced.length !== 20) ){
+     //    return <div>Loading..</div>
+     //  }
+      let pages = [];
+
+      if(page>1){
+        pages.push(<li key="backward" className="pageNumber" onClick={this.decrementPage}> <FontAwesomeIcon icon={faAngleDoubleLeft}/> </li>)
+      }
+      const activePage = {color:'#FF742B', border:'1px solid #FF742B'}
+      const nonActivePage = {color:'rgba(0,0,0,0.5)', border:'1px solid rgba(0,0,0,0.5)'}
+      let totalPages;
+      if(articles.searched === false){
+        totalPages = Math.ceil(articles.articles.length/20);
+      } else{
+        totalPages = Math.ceil(articles.searchedPosts.length/20);
+      }
+      let howMany = 0;
+      let nextPage;
+      if (totalPages === 1){
+        nextPage = false;
+        howMany = 0;
+      } else if(totalPages > 1 && parseInt(page)+5 > totalPages){
+        nextPage = true
+        howMany = totalPages - page;
+      } else{
+        nextPage = true
+        howMany = 5;
+      }
+      console.log(totalPages)
+      console.log(howMany)
+
+      for(var i=1; i<=parseInt(page)+howMany; i++){
+        pages.push(<li key={i} className="pageNumber" onClick={this.fetchNewPage} style={parseInt(page)===i ? activePage : nonActivePage}>{i}</li>)
+          if(i===totalPages){
+            nextPage=false;
+          }
+      }
+      if(nextPage===true){
+        pages.push(<li key="forward" className="pageNumber" onClick={this.incrementPage}><FontAwesomeIcon icon={faAngleDoubleRight}/></li>)
+      }
     return(
       <div className="body">
       <Search/>
         <div className="SearchResults">
-          {articles.articles.map(item=>(
+          {sliced.map(item=>(
 
                       <article key={item.id} className="singleStory">
                         <div>
@@ -98,7 +187,8 @@ class Body extends Component{
                             <a href={'https://news.ycombinator.com/item?id=' + item.id}
                             className="storyTitle">{item['title']}</a>
 
-                          <a href={item['url'] !== undefined ? `https://news.ycombinator.com/from?site=${splitted(item['url'])}` : "No url provided"} className="storyLink">({item['url'] !== undefined ? splitted(item['url']) : "No url provided"})</a>
+                          <a href={item['url'] !== undefined ? `https://news.ycombinator.com/from?site=${splitted(item['url'])}` : "No url provided"}
+                          className="storyLink">({item['url'] !== undefined ? splitted(item['url']) : "No url provided"})</a>
                           </div>
                           <div className="bottom">
 
@@ -119,7 +209,7 @@ class Body extends Component{
           <div className="choosePage">
             <ul>
                 {pages}
-                <li key="forward" className="pageNumber" onClick={this.incrementPage}><FontAwesomeIcon icon={faAngleDoubleRight}/></li>
+
             </ul>
           </div>
       </div>

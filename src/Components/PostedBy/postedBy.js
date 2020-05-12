@@ -15,6 +15,8 @@ class PostedBy extends Component{
   // }
 
   componentDidMount(){
+    const{fetchUserPosts} = this.props
+    fetchUserPosts('vikram7')
     console.log(this.props.articles)
   }
   render(){
@@ -30,13 +32,13 @@ class PostedBy extends Component{
             <span>About:</span>
           </div>
             <div className="rightColumn">
-              <a className="secondChild name" href='#'>qweasd</a>
-              <a className="secondChild link" href='#'> April 25, 2017</a>
+              <a className="secondChild name" href='/'>qweasd</a>
+              <a className="secondChild link" href='/'> April 25, 2017</a>
               <span className="secondChild points">123</span>
               <div className="userAbout">
-                  <a href="#">Submissions</a>
-                  <a href="#">Comments</a>
-                  <a href="#">Favorites</a>
+                  <a href="/">Submissions</a>
+                  <a href="/">Comments</a>
+                  <a href="/">Favorites</a>
               </div>
             </div>
 

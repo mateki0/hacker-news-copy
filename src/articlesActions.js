@@ -16,24 +16,36 @@ export function fetchArticles(query, page) {
     dispatch(fetchArticlesBegins());
     fetch(`https://hacker-news.firebaseio.com/v0/${query}.json?print=pretty`)
     .then(res => res.json())
-    .then(result=>{
-      result.slice(sliceMin,sliceMax).map(a=>{
-        //console.log(a)
+    .then(result=> {
+      result.map(a=>{
         return fetch(`https://hacker-news.firebaseio.com/v0/item/${a}.json?print=pretty`)
-      .then(res=> res.json())
-      .then(result => {
-        //console.log(result)
-        if(result !== null){
-          arr.push(result)
-        }
-        dispatch(fetchArticlesSuccess(arr))
+        .then(res=>res.json())
+        .then(result=>{
+          if(result !== null){
+               arr.push(result)
+          }
+         dispatch(fetchArticlesSuccess(arr))
         })
-      })
+        })
     })
-};
-}
+    // .then(result=>{
+    //   result.slice(sliceMin,sliceMax).map(a=>{
+    //     //console.log(a)
+    //     return fetch(`https://hacker-news.firebaseio.com/v0/item/${a}.json?print=pretty`)
+    //   .then(res=> res.json())
+    //   .then(result => {
+    //     //console.log(result)
+    //     if(result !== null){
+    //       arr.push(result)
+    //     }
+    //     dispatch(fetchArticlesSuccess(arr))
+    //     })
+    //   })
+    // })
 
-export function fetchUserPosts(query, page){
+}
+}
+export function fetchUserPosts(query){
   // let arr = [];
   // let sliceMin;
   // let sliceMax
@@ -57,6 +69,12 @@ export function fetchUserPosts(query, page){
   }
 }
 
+export const SEARCH = 'SEARCH';
+export const Search = (data, currentSearched) => ({
+  type: SEARCH,
+  payload: {data},
+  currentSearched: currentSearched
+})
 export const FETCH_USERPOSTS_SUCCESS = 'FETCH_USERPOSTS_SUCCESS'
 export const fetchUserPostsSuccess = (posts) => ({
   type: FETCH_USERPOSTS_SUCCESS,
@@ -82,7 +100,7 @@ export const fetchArticlesFailure = error => ({
 export const SEND_USER_NAME = 'SEND_USER_NAME';
 export const sendUserName = (name) => ({
   type: SEND_USER_NAME,
-  name: name
+  payload: {name}
 })
 
 export const PAGE_INCREMENT = 'PAGE_INCREMENT';
