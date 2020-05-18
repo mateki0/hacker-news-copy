@@ -7,12 +7,12 @@ import {
   PAGE_INCREMENT,
   PAGE_DECREMENT,
   PAGE_CHANGE,
-  SEND_USER_NAME,
+  GET_USER,
   SEARCH,
 } from './articlesActions';
 import { combineReducers } from 'redux';
 
-const initialState ={
+export const initialState ={
   articles: [],
   searched:false,
   loading: false,
@@ -21,12 +21,14 @@ const initialState ={
   currentFilter: 'beststories',
   currentSearched: '',
   searchedPosts:[],
-  userName:''
 }
-
-function articles(state = initialState, action){
+export function articles(state = initialState, action){
   switch (action.type){
-
+    case GET_USER:
+    return{
+        ...state,
+        userName: 'action.data'
+      }
     case SEARCH:
     return{
       ...state,
@@ -39,7 +41,7 @@ function articles(state = initialState, action){
     case FETCH_USERPOSTS_SUCCESS:
       return {
         ...state,
-        userPosts: action.payload.posts
+        user: action.payload.posts
       }
 
     case FETCH_ARTICLES_BEGINS:
@@ -92,16 +94,13 @@ function articles(state = initialState, action){
         currentFilter:action.data
       }
 
-    case SEND_USER_NAME:
-      console.log(action.payload.name)
-      return{
-        ...state,
-        userName: action.payload.name
-      }
+
     default:
       return state
   }
   }
+
+
 
 export const getArticles = state => state.articles;
 

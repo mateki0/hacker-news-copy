@@ -8,22 +8,15 @@ import './postedBy.css'
 class PostedBy extends Component{
 
 
-  // componentWillReceiveProps(nextProps){
-  //   if(nextProps.articles.userName !== ''){
-  //     window.location.reload()
-  //   }
-  // }
-
   componentDidMount(){
     const{fetchUserPosts} = this.props
     fetchUserPosts('vikram7')
     console.log(this.props.articles)
   }
   render(){
-
+    console.log(this.props.articles)
     return(
       <div className="body">
-
         <div className="container">
           <div className="leftColumn">
             <span>User:</span>
@@ -55,6 +48,7 @@ class PostedBy extends Component{
   })
   const mapDispatchToProps = dispatch => bindActionCreators({
     fetchUserPosts:fetchUserPosts,
+
   }, dispatch)
 
 

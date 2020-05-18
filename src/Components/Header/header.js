@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCog} from '@fortawesome/free-solid-svg-icons';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import {getArticles} from '../../articles';
 import {Search} from '../../articlesActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 class Header extends Component{
-  handleSearch = this.handleSearch.bind(this)
-  handleSearch(e){
+  handleSearch = (e) => {
     e.preventDefault()
     const {Search} = this.props
     const {articles} = this.props.articles;
@@ -20,17 +18,16 @@ class Header extends Component{
       || (a['title'] !== undefined && a['title'].includes(input))
       || (a['url'] !== undefined && a['url'].includes(input)))
       {
-
         arr.push(a)
       }
     })
 
     Search(arr, input)
-
+    console.log(arr)
   }
 
   render(){
-console.log(this.props.articles)
+
     return(
       <header >
         <div className="navBar">

@@ -1,21 +1,14 @@
 import fetch from 'cross-fetch'
 
 export function fetchArticles(query, page) {
-  let arr = [];
-  let sliceMin;
-  let sliceMax
-  if(page > 0){
-    sliceMin = 0 + ((20*page)+1);
-    sliceMax = 20 + ((20*page)+1);
-  } else{
-    sliceMin = 0;
-    sliceMax = 20;
-  }
-  return dispatch => {
+   let arr = [];
+   return dispatch => {
 
     dispatch(fetchArticlesBegins());
     fetch(`https://hacker-news.firebaseio.com/v0/${query}.json?print=pretty`)
-    .then(res => res.json())
+    .then(res => res.json(),
+    error => console.log('An error occurred', error)
+    )
     .then(result=> {
       result.map(a=>{
         return fetch(`https://hacker-news.firebaseio.com/v0/item/${a}.json?print=pretty`)
@@ -28,47 +21,27 @@ export function fetchArticles(query, page) {
         })
         })
     })
-    // .then(result=>{
-    //   result.slice(sliceMin,sliceMax).map(a=>{
-    //     //console.log(a)
-    //     return fetch(`https://hacker-news.firebaseio.com/v0/item/${a}.json?print=pretty`)
-    //   .then(res=> res.json())
-    //   .then(result => {
-    //     //console.log(result)
-    //     if(result !== null){
-    //       arr.push(result)
-    //     }
-    //     dispatch(fetchArticlesSuccess(arr))
-    //     })
-    //   })
-    // })
+
+
 
 }
 }
 export function fetchUserPosts(query){
-  // let arr = [];
-  // let sliceMin;
-  // let sliceMax
-  // if(page > 0){
-  //   sliceMin = 0 + ((20*page)+1);
-  //   sliceMax = 20 + ((20*page)+1);
-  // } else{
-  //   sliceMin = 0;
-  //   sliceMax = 20;
-  // }
+
   return dispatch => {
     dispatch(fetchArticlesBegins);
     fetch(`https://hacker-news.firebaseio.com/v0/user/${query}.json?print=pretty`)
       .then(res => res.json())
       .then(result => dispatch(fetchUserPostsSuccess(result)))
-      // .then(result =>{
-      //   result.submitted.slice(sliceMin,sliceMax).map(a=>{
-      //     arr.push(a)
-      //   })
-      //   dispatch(fetchUserPostsSuccess(arr)) })
+
   }
 }
 
+export const GET_USER = 'GET_USER';
+export const getUser = name => ({
+  type: GET_USER,
+  data: name,
+})
 export const SEARCH = 'SEARCH';
 export const Search = (data, currentSearched) => ({
   type: SEARCH,
@@ -95,12 +68,6 @@ export const FETCH_ARTICLES_FAILURE = 'FETCH_ARTICLES_FAILURE';
 export const fetchArticlesFailure = error => ({
   type: FETCH_ARTICLES_FAILURE,
   payload: {error}
-})
-
-export const SEND_USER_NAME = 'SEND_USER_NAME';
-export const sendUserName = (name) => ({
-  type: SEND_USER_NAME,
-  payload: {name}
 })
 
 export const PAGE_INCREMENT = 'PAGE_INCREMENT';

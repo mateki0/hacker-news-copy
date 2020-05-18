@@ -6,8 +6,8 @@ import {bindActionCreators} from 'redux';
 import {getArticles} from '../../articles'
 class Search extends Component{
 
-  handleFilter = this.handleFilter.bind(this)
-  handleFilter(e){
+
+  handleFilter = (e) => {
     let query = '';
     console.log(this.props)
     const {fetchArticles,filterChange} = this.props;
