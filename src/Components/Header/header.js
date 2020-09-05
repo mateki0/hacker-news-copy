@@ -32,17 +32,15 @@ class Header extends Component{
       <header >
         <div className="navBar">
           <div className="logo">
-            <a href="/"><div className="logoH">H</div><span className="logoS">Search<br/> Hacker News</span></a>
+            <a href="/"><div className="logoH">H</div></a>
           </div>
           <div className="searchBar">
-            <input className="searchInput" placeholder="Search stories by title, url or author in current filter" />
+            <input className="searchInput" placeholder="Search stories..." />
             <div className="searchBy">
               <FontAwesomeIcon onClick={this.handleSearch} icon={faSearch}/>
             </div>
           </div>
           <div className="settings">
-            {/* <FontAwesomeIcon icon={faCog}/>
-            <span>Settings</span> */}
           </div>
         </div>
       </header>

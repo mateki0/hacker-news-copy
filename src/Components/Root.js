@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {Provider} from 'react-redux';
 import Header from './Header/header.js';
 import Body from './Body/body.js';
-import PostedBy from './PostedBy/postedBy.js';
 import configureStore from '../configureStore';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {createBrowserHistory} from 'history';

@@ -35,7 +35,7 @@ class Search extends Component{
   }
 
   render(){
-    const active = {color:'#FF742B'};
+    const active = {color:'#FF742B', fontWeight:'600'};
     const nonActive = {color:'#000'};
     return(
       <div className="filters">

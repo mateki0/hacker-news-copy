@@ -7,7 +7,7 @@ import {fetchArticles,incrementPage, decrementPage,changePage, fetchUserPosts, g
 import {getArticles} from '../../articles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faAngleDoubleLeft,faAngleDoubleRight} from '@fortawesome/free-solid-svg-icons';
-import {Link, BrowserRouter} from 'react-router-dom';
+
 import Search from '../Search/search.js';
 class Body extends Component{
 
@@ -58,25 +58,25 @@ class Body extends Component{
     const {error, loading} = this.props.articles;
     const {page} = this.props.articles
 
-     if(error){
-       return <div>Error! {error.message}</div>
-     }
-     if(loading === true){
-       return <div >Loading...</div>
-     }
+    if(error){
+        return <div>Error! {error.message}</div>
+    }
+    if(loading === true){
+        return <div >Loading...</div>
+    }
 
-     function splitted(url){
-       let splitted = url.split('/');
-       if(articles.searched === false){
-       return splitted[2]
-     } else{
-       return url
-     }
-     }
-     let sliceMin;
-     let sliceMax
-     let sliced;
-     switch(parseInt(page)){
+    function splitted(url){
+        let splitted = url.split('/');
+        if(articles.searched === false){
+        return splitted[2]
+      } else{
+          return url
+      }
+    }
+    let sliceMin;
+    let sliceMax
+    let sliced;
+    switch(parseInt(page)){
        case 1:
        sliceMin = 0;
        sliceMax = 20;
@@ -120,18 +120,15 @@ class Body extends Component{
        default:
        sliceMin = 0;
        sliceMax = 20;
-     }
-       if(articles.searched === true && articles.searchedPosts.length >20){
-         sliced = articles.searchedPosts.slice(sliceMin,sliceMax)
-       } else if(articles.searched === true && articles.searchedPosts.length<20){
-         sliced = articles.searchedPosts
-       }
-       if(articles.searched === false){
-         sliced = articles.articles.slice(sliceMin,sliceMax)
-       }
-     // if((articles.articles.length > 20 && sliced.length !== 20 && articles.searched === false) || (articles.searchedPosts.length>20 && sliced.length !== 20) ){
-     //    return <div>Loading..</div>
-     //  }
+      }
+        if(articles.searched === true && articles.searchedPosts.length >20){
+          sliced = articles.searchedPosts.slice(sliceMin,sliceMax)
+        } else if(articles.searched === true && articles.searchedPosts.length<20){
+          sliced = articles.searchedPosts
+        }
+        if(articles.searched === false){
+          sliced = articles.articles.slice(sliceMin,sliceMax)
+        }
       let pages = [];
 
       if(page>1){
@@ -175,9 +172,9 @@ class Body extends Component{
       <Search/>
         <div className="SearchResults">
           {sliced.map(item=>(
-
-                      <article key={item.id} className="singleStory">
-                        <div>
+                    <>
+                      <article key={item.id} className="singleStory" >
+                        <div className="innerStoryDiv" >
                           <div className="header">
                             <a href={'https://news.ycombinator.com/item?id=' + item.id}
                             className="storyTitle">{item['title']}</a>
@@ -187,7 +184,7 @@ class Body extends Component{
                           <div className="bottom">
 
                             <ul>
-                              <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item.score !== null ? item.score : 0} points,</a></li>
+                              <li><a href={'https://news.ycombinator.com/item?id=' + item.id}>{item.score !== null ? item.score : 0} points</a></li>
 
                               <li onClick={this.handleBy}>{item.by}</li>
 
@@ -198,6 +195,7 @@ class Body extends Component{
                           </div>
                         </div>
                       </article>
+                    </>
                     ))}
           </div>
           <div className="choosePage">
