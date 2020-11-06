@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import './header.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import {getArticles} from '../../articles';
 import {Search} from '../../articlesActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
-class Header extends Component{
+import SearchWrapper from './styled/SearchWrapper';
+import SearchBox from './styled/SearchBox';
+import Icon from './styled/Icon';
+class SearchBar extends Component{
   handleSearch = (e) => {
     e.preventDefault()
     const {Search} = this.props
@@ -29,21 +30,12 @@ class Header extends Component{
   render(){
 
     return(
-      <header >
-        <div className="navBar">
-          <div className="logo">
-            <a href="/"><div className="logoH">H</div></a>
-          </div>
-          <div className="searchBar">
-            <input className="searchInput" placeholder="Search stories..." />
-            <div className="searchBy">
-              <FontAwesomeIcon onClick={this.handleSearch} icon={faSearch}/>
-            </div>
-          </div>
-          <div className="settings">
-          </div>
-        </div>
-      </header>
+      <div>
+      <SearchWrapper>
+        <SearchBox placeholder="Search stories..."/>
+        <Icon onClick={this.handleSearch} icon={faSearch}/>
+      </SearchWrapper>
+      </div>
 
     )
   }
@@ -55,4 +47,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   Search:Search
 }, dispatch)
-export default connect(mapStateToProps,mapDispatchToProps)(Header);
+export default connect(mapStateToProps,mapDispatchToProps)(SearchBar);

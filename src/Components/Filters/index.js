@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import './search.css';
 import {fetchArticles, filterChange } from '../../articlesActions'
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getArticles} from '../../articles'
-class Search extends Component{
+import FiltersContainer from './styled/FiltersContainer';
+import SingleFilterBox from './styled/SingleFilterBox';
+class Filters extends Component{
 
 
   handleFilter = (e) => {
@@ -35,18 +36,14 @@ class Search extends Component{
   }
 
   render(){
-    const active = {color:'#FF742B', fontWeight:'600'};
-    const nonActive = {color:'#000'};
     return(
-      <div className="filters">
-        <ul>
-          <li className="filter" style={this.props.articles.currentFilter === 'newstories' ? active : nonActive} onClick={this.handleFilter}>New</li>
-          <li className="filter" style={this.props.articles.currentFilter === 'topstories' ? active : nonActive} onClick={this.handleFilter}>Top</li>
-          <li className="filter" style={this.props.articles.currentFilter === 'askstories' ? active : nonActive} onClick={this.handleFilter}>Ask</li>
-          <li className="filter" style={this.props.articles.currentFilter === 'showstories' ? active : nonActive} onClick={this.handleFilter}>Show</li>
-          <li className="filter" style={this.props.articles.currentFilter === 'jobstories' ? active : nonActive} onClick={this.handleFilter}>Jobs</li>
-        </ul>
-      </div>
+      <FiltersContainer>
+        <SingleFilterBox onClick={this.handleFilter}>New</SingleFilterBox>
+        <SingleFilterBox onClick={this.handleFilter}>Top</SingleFilterBox>
+        <SingleFilterBox onClick={this.handleFilter}>Ask</SingleFilterBox>
+        <SingleFilterBox onClick={this.handleFilter}>Show</SingleFilterBox>
+        <SingleFilterBox onClick={this.handleFilter}>Jobs</SingleFilterBox>
+      </FiltersContainer>
     )
   }
 }
@@ -59,4 +56,4 @@ class Search extends Component{
     fetchArticles: fetchArticles,
   }, dispatch)
 
-export default connect(mapStateToProps,mapDispatchToProps)(Search);
+export default connect(mapStateToProps,mapDispatchToProps)(Filters);
