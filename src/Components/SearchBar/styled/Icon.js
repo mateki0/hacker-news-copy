@@ -7,6 +7,7 @@ const Icon = styled(FontAwesomeIcon)`
   right:0;
   top:50%;
   &.fa-search{
+  color:rgba(0,0,0,0.4);
   margin-right:20px;
   font-size:20px
 }

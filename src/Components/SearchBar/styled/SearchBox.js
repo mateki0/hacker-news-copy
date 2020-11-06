@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 const SearchBox = styled.input`
-  border:1px solid #000;
+  border:none;
+  box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
   border-radius:8px;
   width:93%;
   font-size:22px;

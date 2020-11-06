@@ -7,6 +7,6 @@ const ArticleWrapper = styled.article`
   height:100%;
   border-radius:8px;
   border:none;
-  box-shadow: 5px 5px 5px 5px #b8b6b6;
+  box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.1);
 `
 export default ArticleWrapper;

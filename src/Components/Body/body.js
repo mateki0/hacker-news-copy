@@ -6,6 +6,7 @@ import {getArticles} from '../../articles';
 import SingleArticle from '../SingleArticle';
 import ArticlesContainer from './styled/ArticlesContainer';
 import Pages from '../Pages';
+import LoadingIcon from '../LoadingIcon/LoadingIcon';
 
 
 class Body extends Component{
@@ -58,7 +59,7 @@ class Body extends Component{
         return <div>Error! {error.message}</div>
     }
     if(loading === true){
-        return <div >Loading...</div>
+        return <LoadingIcon/>
     }
 
     function splitted(url){
@@ -129,25 +130,20 @@ class Body extends Component{
     return(
       <>
       <ArticlesContainer>
-        
           {sliced.map(item=>(
-                   
-                    <SingleArticle 
-                    key={item.id}
-                    title={item['title']}
-                    link={`https://news.ycombinator.com/item?id=`} 
-                    source={item['url'] !== undefined ? splitted(item['url']) : "No url provided"}
-                    score={item.score !== null ? item.score : 0}
-                    author={item.by}
-                    time={item['time']}
-                    comments={item['kids'] !== undefined ? item['kids'].length : 0}
-                    />
-                      
-                    ))}
-         
-          
+            <SingleArticle 
+            key={item.id}
+            title={item['title']}
+            link={`https://news.ycombinator.com/item?id=`} 
+            source={item['url'] !== undefined ? splitted(item['url']) : "No url provided"}
+            score={item.score !== null ? item.score : 0}
+            author={item.by}
+            time={item['time']}
+            comments={item['kids'] !== undefined ? item['kids'].length : 0}
+          />        
+          ))}
       </ArticlesContainer>
-      <Pages numberOfPages={Math.ceil(articles.articles.length/20)} page={page} incrementPage={this.incrementPage} decrementPage={this.decrementPage} fetchNewPage={this.fetchNewPage}/>
+      <Pages numberOfPages={totalPages} page={page} incrementPage={this.incrementPage} decrementPage={this.decrementPage} fetchNewPage={this.fetchNewPage}/>
       </>
     )
   }

@@ -17,11 +17,11 @@ class SingleArticle extends Component{
         </TitleWrapper>
         <PairContainer>
           <DefaultSpan>{this.props.score} points</DefaultSpan>
-          <DefaultSpan>{this.props.comments} comments</DefaultSpan>
-        </PairContainer>
-        <PairContainer last={true}>
-          <DefaultSpan>by {this.props.author}</DefaultSpan>
           <DefaultSpan><Moment fromNow unix>{this.props.time}</Moment></DefaultSpan>
+        </PairContainer>
+        <PairContainer >
+          <DefaultSpan>{this.props.comments} comments</DefaultSpan>
+          <DefaultSpan>by {this.props.author}</DefaultSpan>
         </PairContainer>
       </ArticleWrapper>
     )

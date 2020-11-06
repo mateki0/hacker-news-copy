@@ -22,13 +22,9 @@ class SearchBar extends Component{
         arr.push(a)
       }
     })
-
     Search(arr, input)
-    console.log(arr)
   }
-
   render(){
-
     return(
       <div>
       <SearchWrapper>
@@ -36,7 +32,6 @@ class SearchBar extends Component{
         <Icon onClick={this.handleSearch} icon={faSearch}/>
       </SearchWrapper>
       </div>
-
     )
   }
 }
