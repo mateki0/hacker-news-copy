@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
@@ -25,14 +24,13 @@ const GlobalStyle = createGlobalStyle`
     width:65vw;
     }
 }
-`
+`;
 ReactDOM.render(
   <>
-  <GlobalStyle />
-  <Root/>
+    <GlobalStyle />
+    <Root />
   </>,
-document.getElementById('root')
+  document.getElementById('root')
 );
-
 
 serviceWorker.unregister();

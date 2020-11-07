@@ -1,21 +1,21 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Icon = styled(FontAwesomeIcon)`
-  position:absolute;
+  position: absolute;
   white-space: nowrap;
-  transform:translateY(-50%);
-  right:0;
-  top:50%;
-  &.fa-search{
-  color:rgba(0,0,0,0.4);
-  margin-right:20px;
-  font-size:20px
-}
-&:hover{
-  cursor:pointer;
-}
-@media screen and (min-width:768px){
-  right:20px;
-}
-  `
-  export default Icon;
+  transform: translateY(-50%);
+  right: 0;
+  top: 50%;
+  &.fa-search {
+    color: rgba(0, 0, 0, 0.4);
+    margin-right: 20px;
+    font-size: 20px;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  @media screen and (min-width: 768px) {
+    right: 20px;
+  }
+`;
+export default Icon;

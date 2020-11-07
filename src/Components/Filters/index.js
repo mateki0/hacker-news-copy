@@ -1,57 +1,50 @@
-import React, {Component} from 'react';
-import {fetchArticles, filterChange } from '../../articlesActions'
+import React, { Component } from 'react';
+import { fetchArticles, filterChange } from '../../articlesActions';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {getArticles} from '../../articles'
+import { bindActionCreators } from 'redux';
+import { getArticles } from '../../articles';
 import FiltersContainer from './styled/FiltersContainer';
 import SingleFilterBox from './styled/SingleFilterBox';
-class Filters extends Component{
+class Filters extends Component {
+  handleFilter = (story) => {
+    const { fetchArticles, filterChange } = this.props;
 
-
-  handleFilter = (e) => {
-    let query = '';
-    const {fetchArticles,filterChange} = this.props;
-    switch(e.currentTarget.innerText){
-      case 'New':
-      query = 'newstories';
-      break;
-      case 'Top':
-      query = 'topstories';
-      break;
-      case 'Ask':
-      query = 'askstories';
-      break;
-      case 'Show':
-      query = 'showstories';
-      break;
-      case 'Jobs':
-      query = 'jobstories';
-      break;
-      default:
-      query = ''
-    }
-      filterChange(query)
-      fetchArticles(query, 1)
-  }
-  render(){
-    return(
+    filterChange(story);
+    fetchArticles(story, 1);
+  };
+  render() {
+    return (
       <FiltersContainer>
-        <SingleFilterBox onClick={this.handleFilter}>New</SingleFilterBox>
-        <SingleFilterBox onClick={this.handleFilter}>Top</SingleFilterBox>
-        <SingleFilterBox onClick={this.handleFilter}>Ask</SingleFilterBox>
-        <SingleFilterBox onClick={this.handleFilter}>Show</SingleFilterBox>
-        <SingleFilterBox onClick={this.handleFilter}>Jobs</SingleFilterBox>
+        <SingleFilterBox type="button" onClick={() => this.handleFilter('newstories')}>
+          New
+        </SingleFilterBox>
+        <SingleFilterBox type="button" onClick={() => this.handleFilter('topstories')}>
+          Top
+        </SingleFilterBox>
+        <SingleFilterBox type="button" onClick={() => this.handleFilter('askstories')}>
+          Ask
+        </SingleFilterBox>
+        <SingleFilterBox type="button" onClick={() => this.handleFilter('showstories')}>
+          Show
+        </SingleFilterBox>
+        <SingleFilterBox type="button" onClick={() => this.handleFilter('jobstories')}>
+          Jobs
+        </SingleFilterBox>
       </FiltersContainer>
-    )
+    );
   }
 }
 
-  const mapStateToProps = state => ({
-    articles: getArticles(state),
-  })
-  const mapDispatchToProps = dispatch => bindActionCreators({
-    filterChange: filterChange,
-    fetchArticles: fetchArticles,
-  }, dispatch)
+const mapStateToProps = (state) => ({
+  articles: getArticles(state),
+});
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      filterChange: filterChange,
+      fetchArticles: fetchArticles,
+    },
+    dispatch
+  );
 
-export default connect(mapStateToProps,mapDispatchToProps)(Filters);
+export default connect(mapStateToProps, mapDispatchToProps)(Filters);

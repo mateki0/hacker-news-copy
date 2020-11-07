@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Filters from '../Filters';
 import SearchBar from '../SearchBar';
 import Logo from '../Logo/index.js';
 class Header extends Component {
-  render(){
-    return(
+  render() {
+    return (
       <header>
-      <Logo />
+        <Logo />
         <SearchBar />
-        <Filters/>
+        <Filters />
       </header>
-    )
+    );
   }
 }
 export default Header;
