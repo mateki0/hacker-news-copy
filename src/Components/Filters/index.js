@@ -8,13 +8,15 @@ import SingleFilterBox from './styled/SingleFilterBox';
 class Filters extends Component {
   handleFilter = (story) => {
     const { fetchArticles, filterChange } = this.props;
-
     filterChange(story);
     fetchArticles(story, 1);
   };
   render() {
     return (
       <FiltersContainer>
+        <SingleFilterBox type="button" onClick={() => this.handleFilter('beststories')}>
+          Best
+        </SingleFilterBox>
         <SingleFilterBox type="button" onClick={() => this.handleFilter('newstories')}>
           New
         </SingleFilterBox>

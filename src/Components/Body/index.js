@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  fetchArticles,
-  incrementPage,
-  decrementPage,
-  changePage,
-  getUser,
-} from '../../articlesActions';
+import { fetchArticles, incrementPage, decrementPage, changePage } from '../../articlesActions';
 import { getArticles } from '../../articles';
 import SingleArticle from '../SingleArticle';
 import ArticlesContainer from './styled/ArticlesContainer';
@@ -58,6 +52,7 @@ class Body extends Component {
         return url;
       }
     }
+    console.log(loading);
     if (loading === true) {
       return <LoadingIcon />;
     }
@@ -99,7 +94,6 @@ const mapDispatchToProps = (dispatch) =>
       incrementPage: incrementPage,
       decrementPage: decrementPage,
       changePage: changePage,
-      getUser: getUser,
     },
     dispatch
   );

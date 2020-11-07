@@ -14,28 +14,26 @@ export function fetchArticles(query, page) {
     fetch(`https://hacker-news.firebaseio.com/v0/${query}.json?print=pretty`)
       .then(
         (res) => res.json(),
-        (error) => console.log('An error occurred', error)
+        (error) => {
+          dispatch(fetchArticlesFailure);
+          console.log('An error occurred', error);
+        }
       )
       .then((result) => {
-        result.map((a) => {
+        result.slice(sliceMin, sliceMax).map((a) => {
           return fetch(`https://hacker-news.firebaseio.com/v0/item/${a}.json?print=pretty`)
             .then((res) => res.json())
             .then((result) => {
               if (result !== null) {
                 arr.push(result);
               }
-              dispatch(fetchArticlesSuccess(arr.slice(sliceMin, sliceMax)));
+              dispatch(fetchArticlesSuccess(arr));
             });
         });
       });
   };
 }
 
-export const GET_USER = 'GET_USER';
-export const getUser = (name) => ({
-  type: GET_USER,
-  data: name,
-});
 export const SEARCH = 'SEARCH';
 export const Search = (data, currentSearched) => ({
   type: SEARCH,

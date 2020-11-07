@@ -37,24 +37,10 @@ const SingleFilterBox = styled.button`
       pointer-events: none;
       transition: top 0.2s ease-in 0s, right 0.2s ease-in 0s;
     }
-    :nth-of-type(3) {
-      ::after {
-        transition: top 0.2s ease-in 0s, right 0.2s ease-in 0s, left 0.2s ease-in 0s,
-          width 0.2s ease-in 0s;
-        width: 120%;
-        left: -10px;
-        right: 0;
-      }
-      &:hover {
-        ::after {
-          width: 100%;
-          top: 0;
-          left: 0;
-        }
-      }
-    }
+
     :nth-of-type(4),
-    :nth-of-type(5) {
+    :nth-of-type(5),
+    :nth-of-type(6) {
       ::after {
         transition: top 0.2s ease-in 0s, left 0.2s ease-in 0s;
         right: 0;

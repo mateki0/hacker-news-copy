@@ -6,7 +6,6 @@ import {
   PAGE_INCREMENT,
   PAGE_DECREMENT,
   PAGE_CHANGE,
-  GET_USER,
   SEARCH,
 } from './articlesActions';
 import { combineReducers } from 'redux';
@@ -23,11 +22,6 @@ export const initialState = {
 };
 export function articles(state = initialState, action) {
   switch (action.type) {
-    case GET_USER:
-      return {
-        ...state,
-        userName: 'action.data',
-      };
     case SEARCH:
       return {
         ...state,
