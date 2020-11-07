@@ -3,8 +3,8 @@ import styled from 'styled-components'
 const PageListItem = styled.li`
   border:none;
   border-radius:5px;
-  background-color:#fff;
-  color:#000;
+  background-color:${(props) => props.isActive ? '#000' : '#fff'};
+  color:${(props) => props.isActive ? '#fff' : '#000'};
   margin:0 4px;
   padding:5px 15px;
   transition:all 0.3s;

@@ -37,19 +37,6 @@ class Body extends Component{
     fetchArticles(this.props.articles.currentFilter, page-1);
     changePage(page-1)
   }
-
-  handleFrom = (e) => {
-    const {fetchArticles} = this.props;
-    let url = e.currentTarget.innerText.slice(1,e.currentTarget.innerText.length-1);
-    console.log(url);
-    fetchArticles(url,1);
-  }
-  handleBy = (e) =>{
-    const {getUser} = this.props
-    getUser(e.currentTarget.innerText)
-    console.log(this.props.articles)
-  }
-
   render(){
     const {articles} = this.props;
     const {error, loading} = this.props.articles;
@@ -70,54 +57,10 @@ class Body extends Component{
           return url
       }
     }
-    let sliceMin;
-    let sliceMax
     let sliced;
-    switch(parseInt(page)){
-       case 1:
-       sliceMin = 0;
-       sliceMax = 20;
-       break;
-       case 2:
-       sliceMin = 20;
-       sliceMax = 40;
-       break;
-       case 3:
-       sliceMin = 40;
-       sliceMax = 60;
-       break;
-       case 4:
-       sliceMin = 60;
-       sliceMax = 80;
-       break;
-       case 5:
-       sliceMin = 80;
-       sliceMax = 100;
-       break;
-       case 6:
-       sliceMin = 100;
-       sliceMax = 120;
-       break;
-       case 7:
-       sliceMin = 120;
-       sliceMax = 140;
-       break;
-       case 8:
-       sliceMin = 140;
-       sliceMax = 160;
-       break;
-       case 9:
-       sliceMin = 160;
-       sliceMax = 180;
-       break;
-       case 10:
-       sliceMin = 180;
-       sliceMax = 200;
-       break;
-       default:
-       sliceMin = 0;
-       sliceMax = 20;
-      }
+    function getSlicedArticles(){
+      const sliceMin = 0 + (20*parseInt(page));
+      const sliceMax = 20 + (20*parseInt(page));
         if(articles.searched === true && articles.searchedPosts.length >20){
           sliced = articles.searchedPosts.slice(sliceMin,sliceMax)
         } else if(articles.searched === true && articles.searchedPosts.length<20){
@@ -126,7 +69,8 @@ class Body extends Component{
         if(articles.searched === false){
           sliced = articles.articles.slice(sliceMin,sliceMax)
         }
-      
+      }
+      getSlicedArticles();
     return(
       <>
       <ArticlesContainer>

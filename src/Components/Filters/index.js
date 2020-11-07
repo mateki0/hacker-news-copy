@@ -10,7 +10,6 @@ class Filters extends Component{
 
   handleFilter = (e) => {
     let query = '';
-    console.log(this.props)
     const {fetchArticles,filterChange} = this.props;
     switch(e.currentTarget.innerText){
       case 'New':
@@ -34,7 +33,6 @@ class Filters extends Component{
       filterChange(query)
       fetchArticles(query, 1)
   }
-
   render(){
     return(
       <FiltersContainer>
