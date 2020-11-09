@@ -5,31 +5,60 @@ import { bindActionCreators } from 'redux';
 import { getArticles } from '../../articles';
 import FiltersContainer from './styled/FiltersContainer';
 import SingleFilterBox from './styled/SingleFilterBox';
+
 class Filters extends Component {
+  state = {
+    query: 'beststories',
+  };
   handleFilter = (story) => {
     const { fetchArticles, filterChange } = this.props;
+    this.setState({ query: story });
     filterChange(story);
     fetchArticles(story, 1);
   };
   render() {
     return (
       <FiltersContainer>
-        <SingleFilterBox type="button" onClick={() => this.handleFilter('beststories')}>
+        <SingleFilterBox
+          type="button"
+          isActive={this.state.query === 'beststories'}
+          onClick={() => this.handleFilter('beststories')}
+        >
           Best
         </SingleFilterBox>
-        <SingleFilterBox type="button" onClick={() => this.handleFilter('newstories')}>
+        <SingleFilterBox
+          type="button"
+          isActive={this.state.query === 'newstories'}
+          onClick={() => this.handleFilter('newstories')}
+        >
           New
         </SingleFilterBox>
-        <SingleFilterBox type="button" onClick={() => this.handleFilter('topstories')}>
+        <SingleFilterBox
+          type="button"
+          isActive={this.state.query === 'topstories'}
+          onClick={() => this.handleFilter('topstories')}
+        >
           Top
         </SingleFilterBox>
-        <SingleFilterBox type="button" onClick={() => this.handleFilter('askstories')}>
+        <SingleFilterBox
+          type="button"
+          isActive={this.state.query === 'askstories'}
+          onClick={() => this.handleFilter('askstories')}
+        >
           Ask
         </SingleFilterBox>
-        <SingleFilterBox type="button" onClick={() => this.handleFilter('showstories')}>
+        <SingleFilterBox
+          type="button"
+          isActive={this.state.query === 'showstories'}
+          onClick={() => this.handleFilter('showstories')}
+        >
           Show
         </SingleFilterBox>
-        <SingleFilterBox type="button" onClick={() => this.handleFilter('jobstories')}>
+        <SingleFilterBox
+          type="button"
+          isActive={this.state.query === 'jobstories'}
+          onClick={() => this.handleFilter('jobstories')}
+        >
           Jobs
         </SingleFilterBox>
       </FiltersContainer>

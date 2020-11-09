@@ -63,6 +63,7 @@ class Body extends Component {
             <SingleArticle
               key={item.id}
               title={item['title']}
+              id={item.id}
               link={`https://news.ycombinator.com/item?id=`}
               source={item['url'] !== undefined ? splitted(item['url']) : 'No url provided'}
               score={item.score !== null ? item.score : 0}

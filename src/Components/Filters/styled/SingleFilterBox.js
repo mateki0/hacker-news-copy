@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 const SingleFilterBox = styled.button`
   position: relative;
-  background-color: #fff;
+  background-color: ${(props) => (props.isActive ? '#000' : '#fff')};
+  color: ${(props) => (props.isActive ? '#fff' : '#000')};
   font-weight: bold;
   font-size: 20px;
   font-family: 'Space Mono', monospace;
@@ -27,8 +28,8 @@ const SingleFilterBox = styled.button`
     ::after {
       content: '';
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: ${(props) => (props.isActive ? '0' : '15px')};
+      right: ${(props) => (props.isActive ? '0' : '15px')};
       z-index: 1;
       width: 100%;
       height: 100%;
@@ -44,7 +45,7 @@ const SingleFilterBox = styled.button`
       ::after {
         transition: top 0.2s ease-in 0s, left 0.2s ease-in 0s;
         right: 0;
-        left: 15px;
+        left: ${(props) => (props.isActive ? '0' : '15px')};
       }
       &:hover {
         ::after {

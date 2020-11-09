@@ -13,7 +13,9 @@ class SingleArticle extends Component {
       <ArticleWrapper>
         <TitleWrapper>
           <Source>({this.props.source})</Source>
-          <Title href="/">{this.props.title}</Title>
+          <Title href={this.props.link + this.props.id} target="_blank">
+            {this.props.title}
+          </Title>
         </TitleWrapper>
         <PairContainer>
           <DefaultSpan>{this.props.score} points</DefaultSpan>
