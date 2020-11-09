@@ -6,7 +6,6 @@ import {
   PAGE_INCREMENT,
   PAGE_DECREMENT,
   PAGE_CHANGE,
-  SEARCH,
 } from './articlesActions';
 import { combineReducers } from 'redux';
 
@@ -16,22 +15,12 @@ export const initialState = {
   loading: false,
   error: null,
   page: 1,
+  totalPages: 0,
   currentFilter: 'beststories',
   currentSearched: '',
-  searchedPosts: [],
 };
 export function articles(state = initialState, action) {
   switch (action.type) {
-    case SEARCH:
-      return {
-        ...state,
-        loading: false,
-        searched: true,
-        searchedPosts: action.payload.data,
-        currentSearched: action.currentSearched,
-        page: 1,
-      };
-
     case FETCH_ARTICLES_BEGINS:
       return {
         ...state,
@@ -42,10 +31,11 @@ export function articles(state = initialState, action) {
     case FETCH_ARTICLES_SUCCESS:
       return {
         ...state,
-        loading: false,
         articles: action.payload.articles,
-        searchedPosts: [],
+        currentSearched: action.currentSearched,
+        totalPages: action.totalPages,
         searched: false,
+        loading: false,
       };
 
     case FETCH_ARTICLES_FAILURE:

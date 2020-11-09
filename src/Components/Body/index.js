@@ -7,54 +7,38 @@ import SingleArticle from '../SingleArticle';
 import ArticlesContainer from './styled/ArticlesContainer';
 import Pages from '../Pages';
 import LoadingIcon from '../LoadingIcon/LoadingIcon';
+import SearchingContainer from './styled/SearchingContainer';
 
 class Body extends Component {
+  state = {
+    isSearching: true,
+  };
+
   componentDidMount() {
     const { fetchArticles } = this.props;
-    fetchArticles('beststories', 0);
+
+    fetchArticles('beststories', 1);
   }
 
-  fetchNewPage = (e) => {
-    const { fetchArticles, changePage } = this.props;
-    let page = e.currentTarget.innerText;
-    changePage(page);
-    fetchArticles(this.props.articles.currentFilter, page);
-  };
-  incrementPage = () => {
-    const { incrementPage, changePage, fetchArticles } = this.props;
-    const { page } = this.props.articles;
-    incrementPage();
-    fetchArticles(this.props.articles.currentFilter, page + 1);
-    changePage(page + 1);
-  };
-  decrementPage = () => {
-    const { changePage, fetchArticles } = this.props;
-    const { page } = this.props.articles;
-    decrementPage();
-    fetchArticles(this.props.articles.currentFilter, page - 1);
-    changePage(page - 1);
-  };
-
   render() {
-    const { articles, searchedPosts, page, error, loading, searched } = this.props.articles;
-    const totalPages = articles.searched
-      ? Math.ceil(articles.length / 20)
-      : Math.ceil(searchedPosts.length / 20);
+    const { articles, error, currentSearched } = this.props.articles;
     if (error) {
       return <div>Error! {error.message}</div>;
     }
 
     function splitted(url) {
       let splitted = url.split('/');
-      if (searched === false) {
-        return splitted[2];
-      } else {
-        return url;
-      }
+
+      return splitted[2];
     }
-    console.log(loading);
-    if (loading === true) {
-      return <LoadingIcon />;
+
+    if (articles.length === 0) {
+      return (
+        <SearchingContainer>
+          <LoadingIcon />
+          {currentSearched ? <h3>Or requested phrase is not found</h3> : ''}
+        </SearchingContainer>
+      );
     }
     return (
       <>
@@ -73,13 +57,7 @@ class Body extends Component {
             />
           ))}
         </ArticlesContainer>
-        <Pages
-          numberOfPages={totalPages}
-          page={page}
-          incrementPage={this.incrementPage}
-          decrementPage={this.decrementPage}
-          fetchNewPage={this.fetchNewPage}
-        />
+        <Pages />
       </>
     );
   }

@@ -2,69 +2,90 @@ import React, { Component } from 'react';
 import PageListItem from './styled/PageListItem';
 import PagesList from './styled/PagesList';
 import PaginationContainer from './styled/PaginationContainer';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { incrementPage, decrementPage, changePage, fetchArticles } from '../../articlesActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { getArticles } from '../../articles';
 class Pages extends Component {
-  state = {
-    page: this.props.page,
-    totalPages: this.props.totalPages,
-    pages: [],
+  fetchNewPage = (e) => {
+    const { fetchArticles, changePage } = this.props;
+    let page = e.currentTarget.innerText;
+    changePage(page);
+    fetchArticles(this.props.articles.currentFilter, page, this.props.articles.currentSearched);
   };
-  componentDidMount() {
-    this.handlePagesRender();
-  }
-  handlePagesRender = () => {
-    if (this.state.page > 1) {
-      const backward = (
-        <PageListItem key="backward" onClick={this.props.decrementPage}>
-          {' '}
-          <FontAwesomeIcon icon={faAngleDoubleLeft} />{' '}
-        </PageListItem>
-      );
-      this.setState((prevState) => ({ pages: [...prevState.pages, backward] }));
-    }
+  incrementPage = () => {
+    const { incrementPage, changePage, fetchArticles } = this.props;
+    const { page } = this.props.articles;
+    incrementPage();
+    fetchArticles(this.props.articles.currentFilter, page + 1, this.props.articles.currentSearched);
+    changePage(page + 1);
+  };
+  decrementPage = () => {
+    const { changePage, fetchArticles } = this.props;
+    const { page } = this.props.articles;
+    decrementPage();
+    fetchArticles(this.props.articles.currentFilter, page - 1, this.props.articles.currentSearched);
+    changePage(page - 1);
+  };
+
+  render() {
+    let pages = [];
     let howMany = 0;
-    let nextPage;
-    if (this.state.totalPages === 1) {
-      nextPage = false;
-      howMany = 0;
-    } else if (this.state.totalPages > 1 && parseInt(this.state.page) + 5 > this.state.totalPages) {
-      nextPage = true;
-      howMany = this.state.totalPages - this.state.page;
-    } else {
-      nextPage = true;
+    if (this.props.articles.page + this.props.articles.totalPages > 5) {
       howMany = 5;
+    } else {
+      howMany = this.props.articles.totalPages - this.props.articles.page;
     }
-    for (var i = 1; i <= parseInt(this.state.page) + howMany; i++) {
+    for (var i = 1; i <= parseInt(this.props.articles.page) + howMany; i++) {
       const page = (
         <PageListItem
           key={i}
-          isActive={parseInt(this.state.page) === i}
-          onClick={this.props.fetchNewPage}
+          isActive={parseInt(this.props.articles.page) === i}
+          onClick={this.fetchNewPage}
         >
           {i}
         </PageListItem>
       );
-      this.setState((prevState) => ({ pages: [...prevState.pages, page] }));
-      if (i === this.state.totalPages) {
-        nextPage = false;
-      }
+      pages.push(page);
     }
-    if (nextPage === true) {
-      const forward = (
-        <PageListItem key="forward" onClick={this.props.incrementPage}>
-          <FontAwesomeIcon icon={faAngleDoubleRight} />
-        </PageListItem>
-      );
-      this.setState((prevState) => ({ pages: [...prevState.pages, forward] }));
-    }
-  };
-  render() {
+
     return (
       <PaginationContainer>
-        <PagesList>{this.state.pages}</PagesList>
+        <PagesList>
+          {this.props.articles.page > 1 ? (
+            <PageListItem key="backward" onClick={this.decrementPage}>
+              <FontAwesomeIcon icon={faAngleDoubleLeft} />
+            </PageListItem>
+          ) : (
+            ''
+          )}
+          {pages}
+          {this.props.articles.page < this.props.articles.totalPages ? (
+            <PageListItem key="forward" onClick={this.incrementPage}>
+              <FontAwesomeIcon icon={faAngleDoubleRight} />
+            </PageListItem>
+          ) : (
+            ''
+          )}
+        </PagesList>
       </PaginationContainer>
     );
   }
 }
-export default Pages;
+const mapStateToProps = (state) => ({
+  articles: getArticles(state),
+});
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchArticles: fetchArticles,
+      incrementPage: incrementPage,
+      decrementPage: decrementPage,
+      changePage: changePage,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pages);

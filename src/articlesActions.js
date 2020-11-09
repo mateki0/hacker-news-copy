@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-export function fetchArticles(query, page) {
+export function fetchArticles(query, page, searchValue) {
   let arr = [];
   let sliceMin;
   if (page === 1) {
@@ -8,7 +8,8 @@ export function fetchArticles(query, page) {
   } else {
     sliceMin = 20 * parseInt(page);
   }
-  const sliceMax = 20 + 20 * parseInt(page);
+  let sliceMax = 20 * parseInt(page);
+  let totalPages = 0;
   return (dispatch) => {
     dispatch(fetchArticlesBegins());
     fetch(`https://hacker-news.firebaseio.com/v0/${query}.json?print=pretty`)
@@ -20,35 +21,52 @@ export function fetchArticles(query, page) {
         }
       )
       .then((result) => {
-        result.slice(sliceMin, sliceMax).map((a) => {
-          return fetch(`https://hacker-news.firebaseio.com/v0/item/${a}.json?print=pretty`)
-            .then((res) => res.json())
-            .then((result) => {
-              if (result !== null) {
-                arr.push(result);
-              }
-              dispatch(fetchArticlesSuccess(arr));
-            });
-        });
+        if (searchValue) {
+          result.map((a) => {
+            return fetch(`https://hacker-news.firebaseio.com/v0/item/${a}.json?print=pretty`)
+              .then((res) => res.json())
+              .then((item) => {
+                if (
+                  (item['by'] && item['by'].includes(searchValue)) ||
+                  (item['title'] && item['title'].includes(searchValue)) ||
+                  (item['url'] && item['url'].includes(searchValue))
+                ) {
+                  arr.push(item);
+                }
+                totalPages = Math.ceil(arr.length / 20);
+                dispatch(
+                  fetchArticlesSuccess(arr.slice(sliceMin, sliceMax), searchValue, totalPages)
+                );
+              });
+          });
+        } else {
+          totalPages = Math.ceil(result.length / 20);
+          result.slice(sliceMin, sliceMax).map((a) => {
+            return fetch(`https://hacker-news.firebaseio.com/v0/item/${a}.json?print=pretty`)
+              .then((res) => res.json())
+              .then((result) => {
+                if (result !== null) {
+                  arr.push(result);
+                }
+                dispatch(fetchArticlesSuccess(arr, '', totalPages));
+              });
+          });
+        }
       });
   };
 }
 
-export const SEARCH = 'SEARCH';
-export const Search = (data, currentSearched) => ({
-  type: SEARCH,
-  payload: { data },
-  currentSearched: currentSearched,
-});
 export const FETCH_ARTICLES_BEGINS = 'FETCH_ARTICLES_BEGINS';
 export const fetchArticlesBegins = () => ({
   type: FETCH_ARTICLES_BEGINS,
 });
 
 export const FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS';
-export const fetchArticlesSuccess = (articles) => ({
+export const fetchArticlesSuccess = (articles, searchValue, totalPages) => ({
   type: FETCH_ARTICLES_SUCCESS,
   payload: { articles },
+  currentSearched: searchValue,
+  totalPages: totalPages,
 });
 
 export const FETCH_ARTICLES_FAILURE = 'FETCH_ARTICLES_FAILURE';

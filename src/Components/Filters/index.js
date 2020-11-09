@@ -14,7 +14,7 @@ class Filters extends Component {
     const { fetchArticles, filterChange } = this.props;
     this.setState({ query: story });
     filterChange(story);
-    fetchArticles(story, 1);
+    fetchArticles(story, 1, this.props.articles.currentSearched);
   };
   render() {
     return (

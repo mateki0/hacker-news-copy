@@ -1,35 +1,39 @@
 import React, { Component } from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { getArticles } from '../../articles';
-import { Search } from '../../articlesActions';
+import { fetchArticles } from '../../articlesActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SearchWrapper from './styled/SearchWrapper';
 import SearchBox from './styled/SearchBox';
 import Icon from './styled/Icon';
 class SearchBar extends Component {
-  handleSearch = (e) => {
-    e.preventDefault();
-    const { Search } = this.props;
-    const { articles } = this.props.articles;
-    const input = document.querySelector('.searchInput').value;
-    let arr = [];
-    articles.map((a) => {
-      if (
-        (a['by'] !== undefined && a['by'].includes(input)) ||
-        (a['title'] !== undefined && a['title'].includes(input)) ||
-        (a['url'] !== undefined && a['url'].includes(input))
-      ) {
-        arr.push(a);
-      }
-    });
-    Search(arr, input);
+  state = {
+    searchValue: '',
+  };
+  handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      this.handleSearch();
+    }
+  };
+  handleChangeValue = (e) => {
+    this.setState({ searchValue: e.target.value });
+  };
+  handleSearch = () => {
+    const { fetchArticles } = this.props;
+    const input = this.state.searchValue;
+    fetchArticles(this.props.articles.currentFilter, 1, input);
   };
   render() {
     return (
       <div>
         <SearchWrapper>
-          <SearchBox placeholder="Search stories..." />
+          <SearchBox
+            placeholder="Search stories..."
+            onChange={this.handleChangeValue}
+            onKeyDown={this.handleEnter}
+            value={this.state.searchValue}
+          />
           <Icon onClick={this.handleSearch} icon={faSearch} />
         </SearchWrapper>
       </div>
@@ -43,7 +47,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      Search: Search,
+      fetchArticles: fetchArticles,
     },
     dispatch
   );
