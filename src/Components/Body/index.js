@@ -16,7 +16,6 @@ class Body extends Component {
 
   componentDidMount() {
     const { fetchArticles } = this.props;
-
     fetchArticles('beststories', 1);
   }
 
@@ -28,7 +27,6 @@ class Body extends Component {
 
     function splitted(url) {
       let splitted = url.split('/');
-
       return splitted[2];
     }
 
