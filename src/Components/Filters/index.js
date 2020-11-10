@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchArticles, filterChange } from '../../articlesActions';
+import { fetchArticles, filterChange, changePage } from '../../articlesActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getArticles } from '../../articles';
@@ -11,9 +11,10 @@ class Filters extends Component {
     query: 'beststories',
   };
   handleFilter = (story) => {
-    const { fetchArticles, filterChange } = this.props;
+    const { fetchArticles, filterChange, changePage } = this.props;
     this.setState({ query: story });
     filterChange(story);
+    changePage(1);
     fetchArticles(story, 1, this.props.articles.currentSearched);
   };
   render() {
@@ -74,6 +75,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       filterChange: filterChange,
       fetchArticles: fetchArticles,
+      changePage: changePage,
     },
     dispatch
   );

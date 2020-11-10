@@ -3,15 +3,17 @@ import fetch from 'cross-fetch';
 export function fetchArticles(query, page, searchValue) {
   let arr = [];
   let sliceMin;
+
   if (page === 1) {
     sliceMin = 0;
   } else {
-    sliceMin = 20 * parseInt(page);
+    sliceMin = 20 * (parseInt(page) - 1);
   }
   let sliceMax = 20 * parseInt(page);
   let totalPages = 0;
   return (dispatch) => {
     dispatch(fetchArticlesBegins());
+
     fetch(`https://hacker-news.firebaseio.com/v0/${query}.json?print=pretty`)
       .then(
         (res) => res.json(),
@@ -48,6 +50,7 @@ export function fetchArticles(query, page, searchValue) {
                 if (result !== null) {
                   arr.push(result);
                 }
+
                 dispatch(fetchArticlesSuccess(arr, '', totalPages));
               });
           });

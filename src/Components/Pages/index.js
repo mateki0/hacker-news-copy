@@ -10,30 +10,30 @@ import { faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-s
 import { getArticles } from '../../articles';
 class Pages extends Component {
   fetchNewPage = (e) => {
-    const { fetchArticles, changePage } = this.props;
+    const { fetchArticles, changePage, articles } = this.props;
     let page = e.currentTarget.innerText;
     changePage(page);
-    fetchArticles(this.props.articles.currentFilter, page, this.props.articles.currentSearched);
+    fetchArticles(articles.currentFilter, page, articles.currentSearched);
   };
   incrementPage = () => {
-    const { incrementPage, changePage, fetchArticles } = this.props;
+    const { incrementPage, changePage, fetchArticles, articles } = this.props;
     const { page } = this.props.articles;
     incrementPage();
-    fetchArticles(this.props.articles.currentFilter, page + 1, this.props.articles.currentSearched);
+    fetchArticles(articles.currentFilter, page + 1, articles.currentSearched);
     changePage(page + 1);
   };
   decrementPage = () => {
-    const { changePage, fetchArticles } = this.props;
+    const { changePage, fetchArticles, articles } = this.props;
     const { page } = this.props.articles;
     decrementPage();
-    fetchArticles(this.props.articles.currentFilter, page - 1, this.props.articles.currentSearched);
+    fetchArticles(articles.currentFilter, page - 1, articles.currentSearched);
     changePage(page - 1);
   };
 
   render() {
     let pages = [];
     let howMany = 0;
-    if (this.props.articles.page + this.props.articles.totalPages > 5) {
+    if (parseInt(this.props.articles.page) + this.props.articles.totalPages > 5) {
       howMany = 5;
     } else {
       howMany = this.props.articles.totalPages - this.props.articles.page;
@@ -50,11 +50,10 @@ class Pages extends Component {
       );
       pages.push(page);
     }
-
     return (
       <PaginationContainer>
         <PagesList>
-          {this.props.articles.page > 1 ? (
+          {parseInt(this.props.articles.page) !== 1 ? (
             <PageListItem key="backward" onClick={this.decrementPage}>
               <FontAwesomeIcon icon={faAngleDoubleLeft} />
             </PageListItem>
